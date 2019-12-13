@@ -48,7 +48,7 @@ public class NeteaseSong extends Song {
     
     @Override
     public String getID() {
-        return String.valueOf(o.getInteger("id"));
+        return String.valueOf(o.getLong("id"));
     }
     
     @Override

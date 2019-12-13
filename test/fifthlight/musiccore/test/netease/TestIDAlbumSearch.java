@@ -44,7 +44,7 @@ public class TestIDAlbumSearch {
 
     @Test
     public void testSearchIDMulti() throws IOException {
-        IDSearch s = new IDSearch(new String[]{"3271289", "2786688"});
+        IDSearch s = new IDSearch(new String[]{"3271289", "2875038"});
         SearchResult<Album> ar = NeteaseMusicFactory.getInstance().getAlbums(s);
         assertEquals(ar.length(), 2);
         assertEquals(ar.pageLength(), 1);
@@ -53,11 +53,16 @@ public class TestIDAlbumSearch {
         }
     }
 
-    private void vaildAlbum(Album a) {
-        assertTrue("ゆりしゅらしゅしゅしゅ / おひるねゆにばーす".equals(a.getName()) || "".equals(a.getName()));
-        List<String> subNames = a.getSubNames();
-        assertEquals(subNames.size(), 1);
-        assertEquals(subNames.get(0), "ゆりしゅらしゅしゅしゅ / おひるねゆにばーす");
+    private void vaildAlbum(Album a) throws IOException {
+        assertTrue("ゆりしゅらしゅしゅしゅ / おひるねゆにばーす".equals(a.getName()) || "YURUYURI♪♪ 2nd.Series BESTALBUM ゆるゆりずむ♪2".equals(a.getName()));
+        if("3271289".equals(a.getID())){
+            List<String> subNames = a.getSubNames();
+            assertEquals(subNames.size(), 1);
+            assertEquals(subNames.get(0), "TV动画《摇曳百合 夏日时光》主题曲专辑");
+        } else if("2875038".equals(a.getID())){
+            List<String> subNames = a.getSubNames();
+            assertEquals(subNames.size(), 0);
+        } 
         System.out.println("---Vaild Album---");
         System.out.println("name: " + a.getName());
         System.out.println("subNames: " + String.join(",", a.getSubNames()));

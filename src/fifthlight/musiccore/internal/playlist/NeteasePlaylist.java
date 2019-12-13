@@ -23,6 +23,7 @@ import fifthlight.musiccore.internal.searchresult.netease.NeteaseSongSearchResul
 import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -34,15 +35,23 @@ import java.util.Set;
  */
 public class NeteasePlaylist extends Playlist {
 
-    private final JSONObject o;
+    private JSONObject fullObj = null;
+    private JSONObject shortObj = null;
 
-    public NeteasePlaylist(JSONObject o) {
-        this.o = o.getJSONObject("playlist");
+    public NeteasePlaylist(JSONObject o, int type) {
+        switch(type){
+            case 0:
+                this.fullObj = o;
+                break;
+            case 1:
+                this.shortObj = o;
+                break;
+        }
     }
 
     @Override
     public String getName() {
-        return o.getString("name");
+        return fullObj != null ? fullObj.getJSONObject("playlist").getString("name") : shortObj.getString("name");
     }
 
     @Override
@@ -53,17 +62,21 @@ public class NeteasePlaylist extends Playlist {
     @Override
     public Set<Picture> getPictures() throws IOException {
         Set set = new HashSet();
-        set.add(new NeteasePicture(o.getLong("coverImgId")));
+        set.add(new NeteasePicture(fullObj != null ? fullObj.getJSONObject("playlist").getLong("coverImgId") : shortObj.getLong("coverImgId")));
         return set;
     }
 
     @Override
     public SearchResult<Song> getSongs() throws IOException {
-        return new NeteaseSongSearchResult(o, 1);
+        if(fullObj == null){
+            fullObj = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"id\":" + getID()
+                        + ",\"n\":65536},\"url\":\"http://music.163.com/api/v3/playlist/detail\"}");
+        }
+        return new NeteaseSongSearchResult(fullObj.getJSONObject("playlist"), 1);
     }
 
     @Override
     public String getID() {
-        return String.valueOf(o.getInteger("id"));
+        return fullObj != null ? fullObj.getJSONObject("playlist").getString("id") : shortObj.getString("id");
     }
 }

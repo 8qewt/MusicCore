@@ -16,7 +16,9 @@
  */
 package fifthlight.musiccore.test.netease;
 
+import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
+import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
@@ -31,38 +33,34 @@ import org.junit.Test;
  *
  * @author fifth_light
  */
-public class TestNameAlbumSearch {
+public class TestNameArtistSearch {
 
     @Test
     public void testSearchNameOnce() throws IOException {
-        NameSearch s = new NameSearch("YURUYURI");
-        SearchResult<Album> sr = NeteaseMusicFactory.getInstance().getAlbums(s);
-        assertEquals(sr.length(), 7);
-        assertEquals(sr.pageLength(), 1);
-        vaildAlbum(sr.getItems(0).get(0));
-        vaildAlbum(sr.getItems(0).get(4));
+        NameSearch s = new NameSearch("ClariS");
+        SearchResult<Artist> sr = NeteaseMusicFactory.getInstance().getArtists(s);
+        assertEquals(sr.length(), 54);
+        assertEquals(sr.pageLength(), 2);
+        vaildArtist(sr.getItems(0).get(0));
     }
 
-    private void vaildAlbum(Album a) throws IOException {
-        assertTrue("2512603".equals(a.getID()) || "39391231".equals(a.getID()));
-        if ("2512603".equals(a.getID())) {
-            assertEquals(a.getName(), "YURUYURI♪1st.Series Best Album“ゆるゆりずむ♪”");
-            assertEquals(a.getSubNames().size(), 0);
-            assertEquals(a.getSongs().length(), 25);
-        } else if ("39391231".equals(a.getID())) {
-            assertEquals(a.getName(), "ゆるゆりのおんがく♪ YURUYURI ORIGINALSOUNDTRACK");
-            assertEquals(a.getSubNames().size(), 1);
-            assertEquals(a.getSubNames().get(0), "摇曳百合 原声带");
-            assertEquals(a.getSongs().length(), 34);
+    private void vaildArtist(Artist a) throws IOException {
+        assertTrue("18961".equals(a.getID()));
+        if ("18961".equals(a.getID())) {
+            assertEquals(a.getName(), "ClariS");
+            List<String> subNames = a.getSubNames();
+            assertEquals(subNames.size(), 1);
+            assertEquals(subNames.get(0), "クラリス");
         }
-        System.out.println("---Vaild Album---");
+        System.out.println("---Vaild Artist---");
         System.out.println("id: " + a.getID());
         System.out.println("name: " + a.getName());
-        System.out.println("songs: ");
-        int i = 0;
-        for (Song s : a.getSongs().getItems()) {
-            System.out.println("    name:" + s.getName());
-            System.out.println("    id:" + s.getID());
+        System.out.println("subnames: " + String.join(", ", a.getSubNames()));
+        System.out.println("description: " + a.getDescription());
+        if (a.getPictures() != null) {
+            for (Picture p : a.getPictures()) {
+                System.out.println("picture: " + p.getURL(0, 0));
+            }
         }
         System.out.println("----------------");
     }

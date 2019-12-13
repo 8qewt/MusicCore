@@ -16,15 +16,19 @@
  */
 package fifthlight.musiccore.internal.album;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
+import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.internal.NeteasePicture;
+import fifthlight.musiccore.internal.artist.NeteaseArtist;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseSongSearchResult;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -59,13 +63,21 @@ public class NeteaseAlbum extends Album {
         if (shortObj != null) {
             return shortObj.getString("name");
         } else {
-            return fullObj.getString("name");
+            return fullObj.getJSONObject("album").getString("name");
         }
     }
 
     @Override
-    public List<String> getSubNames() {
-        return null;
+    public List<String> getSubNames() throws IOException {
+        if (fullObj == null) {
+            getLongObj();
+        }
+        JSONArray ja = fullObj.getJSONObject("album").getJSONArray("alias");
+        List<String> l = new ArrayList<String>();
+        for(Object o : ja){
+            l.add((String) o);
+        }
+        return l;
     }
 
     @Override
@@ -78,14 +90,43 @@ public class NeteaseAlbum extends Album {
         }
         return set;
     }
+    
+    private void getLongObj() throws IOException{
+        fullObj = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + id
+                    + "},\"url\":\"http://music.163.com/api/v1/album/" + id + "\"}");
+    }
 
     @Override
     public SearchResult<Song> getSongs() throws IOException {
         if (fullObj == null) {
-            fullObj = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + id
-                    + "},\"url\":\"http://music.163.com/api/v1/album/" + id + "\"}").getJSONObject("album");
+            getLongObj();
         }
         return new NeteaseSongSearchResult(fullObj, 0);
+    }
+
+    @Override
+    public String getID() {
+        return String.valueOf(id);
+    }
+
+    @Override
+    public List<Artist> getArtists() throws IOException {
+        if (fullObj == null) {
+            getLongObj();
+        }
+        List<Artist> result = new ArrayList<Artist>();
+        for(Object obj : fullObj.getJSONObject("album").getJSONArray("ar")){
+            result.add(new NeteaseArtist((JSONObject) obj, 0));
+        }
+        return result;
+    }
+
+    @Override
+    public String getDescription() throws IOException {
+        if (fullObj == null) {
+            getLongObj();
+        }
+        return fullObj.getJSONObject("album").getString("description");
     }
 
 }

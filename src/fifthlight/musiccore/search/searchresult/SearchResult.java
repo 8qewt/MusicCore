@@ -18,6 +18,8 @@ package fifthlight.musiccore.search.searchresult;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ import java.util.List;
  * @author fifth_light
  * @param <T> 搜索结果中所包含的对象。
  */
-public abstract class SearchResult<T> implements Serializable {
+public abstract class SearchResult<T> implements Serializable{
     /**
      * 获取指定页数的元素。<br>
      * 如果指定的页数不存在则返回null。<br>
@@ -49,4 +51,38 @@ public abstract class SearchResult<T> implements Serializable {
      * @return 如果页面长度已知则返回，否则返回null
      */
     public abstract int pageLength();
+    
+    /**
+     * 返回搜索结果中的所有页面
+     * @return 搜索结果中的页面列表
+     * @throws IOException 出现网络错误时抛出此异常。
+     */
+    public List<List<T>> getPages() throws IOException{
+        List<List<T>> l = new ArrayList<List<T>>();
+        int i = 0;
+        List<T> tmpl;
+        do {
+            tmpl = getItems(i++);
+            l.add(tmpl);
+        } while (tmpl != null || i < pageLength());
+        return l;
+    }
+    
+    /**
+     * 返回搜索结果中的所有元素
+     * @return 搜索结果中的元素列表
+     * @throws IOException 出现网络错误时抛出此异常。
+     */
+    public List<T> getItems() throws IOException{
+        List<T> l = new ArrayList<T>();
+        int i = 0;
+        List<T> tmpl;
+        do {
+            tmpl = getItems(i++);
+            if(tmpl != null){
+                l.addAll(tmpl);
+            }
+        } while (tmpl != null || i < pageLength());
+        return l;
+    }
 }

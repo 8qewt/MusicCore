@@ -37,7 +37,7 @@ public class NeteaseAlbumSearchResult extends SearchResult<Album> {
         switch (type) {
             case 0:
                 for (JSONObject o : obj) {
-                    albums.add(new NeteaseAlbum(o.getJSONObject("album"), 1));
+                    albums.add(new NeteaseAlbum(o, 1));
                 }
                 break;
             default:

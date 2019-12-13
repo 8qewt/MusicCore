@@ -33,6 +33,12 @@ public abstract class Artist implements Serializable {
      */
     public abstract String getName();
     
+    /**
+     * 获取艺术家的ID。
+     * @return 艺术家的ID。
+     */
+    public abstract String getID();
+    
     
     /**
      * 获取艺术家的副名称列表。<br>

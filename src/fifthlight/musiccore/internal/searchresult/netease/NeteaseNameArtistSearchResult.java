@@ -63,8 +63,8 @@ public class NeteaseNameArtistSearchResult extends SearchResult<Artist> {
                 p = requirePage(page);
             }
             ArrayList<Artist> Artists = new ArrayList<Artist>();
-            for (Object o : p.getJSONObject("result").getJSONArray("songs")) {
-                Artists.add(new NeteaseArtist((JSONObject) o, 1));
+            for (Object o : p.getJSONObject("result").getJSONArray("artists")) {
+                Artists.add(new NeteaseArtist((JSONObject) o, 2));
             }
             return Artists;
         } else {
@@ -79,7 +79,7 @@ public class NeteaseNameArtistSearchResult extends SearchResult<Artist> {
 
     @Override
     public int pageLength() {
-        return (int) Math.ceil(length() / pageSize);
+        return (int) Math.ceil((float) length() / pageSize);
     }
 
 }

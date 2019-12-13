@@ -81,6 +81,6 @@ public class NeteaseNameSongSearchResult extends SearchResult<Song> {
 
     @Override
     public int pageLength() {
-        return (int) Math.ceil((double)length() / pageSize);
+        return (int) Math.ceil((float) length() / pageSize);
     }
 }

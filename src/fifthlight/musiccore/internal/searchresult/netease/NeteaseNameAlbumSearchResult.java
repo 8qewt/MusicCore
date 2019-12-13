@@ -19,12 +19,8 @@ package fifthlight.musiccore.internal.searchresult.netease;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.internal.album.NeteaseAlbum;
-import fifthlight.musiccore.internal.playlist.NeteasePlaylist;
-import fifthlight.musiccore.internal.song.NeteaseSong;
-import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
-import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,7 +77,7 @@ public class NeteaseNameAlbumSearchResult extends SearchResult<Album> {
 
     @Override
     public int pageLength() {
-        return (int) Math.ceil(length() / pageSize);
+        return (int) Math.ceil((float) length() / pageSize);
     }
 
 }

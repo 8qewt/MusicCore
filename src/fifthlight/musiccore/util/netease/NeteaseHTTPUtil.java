@@ -17,7 +17,9 @@
 package fifthlight.musiccore.util.netease;
 
 import com.alibaba.fastjson.JSONObject;
+import fifthlight.musiccore.exception.ParseException;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -52,8 +54,10 @@ public class NeteaseHTTPUtil {
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/13.10586",
         "Mozilla/5.0 (iPad; CPU OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A300 Safari/602.1"};
 
-    private static Random r = new Random();
+    private static final Random r = new Random();
     private static final String music_u = generateMusicU();
+    private static final String cookie = generateCookie();
+    private static final String userAgent = randomUserAgent();
     
     public static String randomUserAgent() {
         return userAgents[r.nextInt(userAgents.length - 1)];
@@ -86,8 +90,8 @@ public class NeteaseHTTPUtil {
             URL realUrl = new URL("https://music.163.com/api/linux/forward");
             URLConnection conn = realUrl.openConnection();
             conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.addRequestProperty("User-Agent", randomUserAgent());
-            conn.addRequestProperty("Cookie", generateCookie());
+            conn.addRequestProperty("User-Agent", userAgent);
+            conn.addRequestProperty("Cookie", cookie);
             conn.setDoOutput(true);
             conn.setDoInput(true);
             OutputStream os = conn.getOutputStream();
@@ -102,7 +106,13 @@ public class NeteaseHTTPUtil {
             }
             os.close();
             br.close();
-            return JSONObject.parseObject(result);
+            JSONObject jo = JSONObject.parseObject(result);
+            if(jo.containsKey("code")){
+                if(jo.getInteger("code") == 200){
+                    return jo;
+                }
+            }
+            throw new ParseException();
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }

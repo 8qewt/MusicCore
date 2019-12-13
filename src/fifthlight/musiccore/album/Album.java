@@ -17,6 +17,7 @@
 package fifthlight.musiccore.album;
 
 import fifthlight.musiccore.Picture;
+import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import java.io.IOException;
@@ -36,10 +37,32 @@ public abstract class Album implements Serializable {
     public abstract String getName();
     
     /**
-     * 获取专辑的副名称列表。
-     * @return 专辑的副名称列表。
+     * 获取专辑的ID。
+     * @return 专辑的ID。
      */
-    public abstract List<String> getSubNames();
+    public abstract String getID();
+    
+    /**
+     * 获取专辑的艺术家列表。
+     * @return 专辑的名称。
+     * @throws IOException 网络错误时抛出此异常。
+     */
+    public abstract List<Artist> getArtists() throws IOException;
+    
+    /**
+     * 获取专辑的副名称列表。
+     * @return 专辑的副名称列表，如果当前网站不支持则返回null。
+     * @throws IOException 网络错误时抛出此异常。
+     */
+    public abstract List<String> getSubNames() throws IOException;
+    
+    
+    /**
+     * 获取专辑的说明。
+     * @return 专辑的说明，如果当前网站不支持则返回null。
+     * @throws IOException 网络错误时抛出此异常。
+     */
+    public abstract String getDescription() throws IOException;
     
     /**
      * 获取专辑的图片集合。<br>

@@ -17,8 +17,8 @@
 package fifthlight.musiccore.internal.searchresult.netease;
 
 import com.alibaba.fastjson.JSONObject;
-import fifthlight.musiccore.internal.playlist.NeteasePlaylist;
-import fifthlight.musiccore.playlist.Playlist;
+import fifthlight.musiccore.artist.Artist;
+import fifthlight.musiccore.internal.artist.NeteaseArtist;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,26 +28,20 @@ import java.util.List;
  *
  * @author fifth_light
  */
-public class NeteasePlaylistSearchResult extends SearchResult<Playlist> {
+public class NeteaseArtistSearchResult extends SearchResult<Artist> {
 
-    ArrayList<Playlist> playlists = new ArrayList<Playlist>();
+    ArrayList<Artist> artists = new ArrayList<Artist>();
 
-    public NeteasePlaylistSearchResult(List<JSONObject> obj, int type) {
-        switch (type) {
-            case 0:
-                for (JSONObject o : obj) {
-                    playlists.add(new NeteasePlaylist(o, 0));
-                }
-                break;
-            default:
-                throw new RuntimeException();
+    public NeteaseArtistSearchResult(List<JSONObject> obj) {
+        for (JSONObject o : obj) {
+            artists.add(new NeteaseArtist(o, 1));
         }
     }
 
     @Override
     public List getItems(int page) throws IOException {
         if (page == 0) {
-            return playlists;
+            return artists;
         } else {
             return null;
         }
@@ -55,7 +49,7 @@ public class NeteasePlaylistSearchResult extends SearchResult<Playlist> {
 
     @Override
     public int length() {
-        return playlists.size();
+        return artists.size();
     }
 
     @Override

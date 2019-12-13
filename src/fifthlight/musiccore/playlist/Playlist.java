@@ -44,7 +44,7 @@ public abstract class Playlist implements Serializable {
     
     /**
      * 获取播放列表的副名称列表。
-     * @return 播放列表的副名称列表。
+     * @return 播放列表的副名称列表，不适用于该网站返回null。
      */
     public abstract List<String> getSubNames();
     

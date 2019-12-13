@@ -21,7 +21,9 @@ import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildSearchException;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseAlbumSearchResult;
+import fifthlight.musiccore.internal.searchresult.netease.NeteaseArtistSearchResult;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseNameAlbumSearchResult;
+import fifthlight.musiccore.internal.searchresult.netease.NeteaseNameArtistSearchResult;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseNamePlaylistSearchResult;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseNameSongSearchResult;
 import fifthlight.musiccore.internal.searchresult.netease.NeteasePlaylistSearchResult;
@@ -76,7 +78,20 @@ public class NeteaseMusicFactory extends MusicFactory {
 
     @Override
     public SearchResult<Artist> getArtists(Search search) throws InvaildSearchException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (search instanceof IDSearch) {
+            IDSearch idSearch = (IDSearch) search;
+            List<String> ids = ((IDSearch) search).getIDs();
+            List<JSONObject> results = new ArrayList<JSONObject>();
+            for (int i = 0; i < ids.size(); i++) {
+                results.add(NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + ids.get(i)
+                    + ",\"ext\":true,\"top\":0},\"url\":\"http://music.163.com/api/v1/artist/" + ids.get(i) + "\"}"));
+            }
+            return new NeteaseArtistSearchResult(results);
+        } else if (search instanceof NameSearch) {
+            return new NeteaseNameArtistSearchResult((NameSearch) search);
+        } else {
+            throw new InvaildSearchException();
+        }
     }
 
     @Override

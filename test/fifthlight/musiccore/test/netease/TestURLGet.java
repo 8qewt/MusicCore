@@ -33,7 +33,7 @@ public class TestURLGet {
 
     @Test
     public void testURLGet() throws IOException {
-        IDSearch s = new IDSearch("404543013");
+        IDSearch s = new IDSearch("1311345944");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
         Song song = sr.getItems(0).get(0);
         Set<SongQuality> sqs = song.getAvailableQualities();
@@ -48,7 +48,7 @@ public class TestURLGet {
 
     @Test
     public void testURLGetBest() throws IOException {
-        IDSearch s = new IDSearch("404543013");
+        IDSearch s = new IDSearch("1311345944");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
         Song song = sr.getItems(0).get(0);
         Set<SongQuality> sqs = song.getAvailableQualities();
