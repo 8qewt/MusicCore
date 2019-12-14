@@ -22,7 +22,7 @@ import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -35,7 +35,7 @@ public class TestSongPic {
     public void testSongPic() throws IOException {
         IDSearch s = new IDSearch("404543013");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
-        Set<Picture> pics = sr.getItems(0).get(0).getAlbum().getPictures();
+        List<Picture> pics = sr.getItems(0).get(0).getAlbum().getPictures();
         assertEquals(pics.size(), 1);
         System.out.println("---Vaild Album Cover---");
         System.out.println("No Res: " + ((Picture) pics.toArray()[0]).getURL(0, 0));

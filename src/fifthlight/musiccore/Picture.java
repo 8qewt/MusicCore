@@ -17,13 +17,14 @@
 package fifthlight.musiccore;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 
 /**
  * 歌曲图片与封面图片等图片。
  * @author fifth_light
  */
-public abstract class Picture {
+public abstract class Picture implements Serializable {
     /**
      * 获取封面的URL<br>
      * <em>可能会产生网络请求和线程堵塞。</em>

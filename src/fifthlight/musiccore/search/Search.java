@@ -16,9 +16,11 @@
  */
 package fifthlight.musiccore.search;
 
+import java.io.Serializable;
+
 /**
  * 音乐搜索参数
  * @author fifth_light
  */
-public abstract class Search {
+public abstract class Search implements Serializable {
 }

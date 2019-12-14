@@ -19,7 +19,6 @@ package fifthlight.musiccore.search.searchresult;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ import java.util.List;
  * @author fifth_light
  * @param <T> 搜索结果中所包含的对象。
  */
-public abstract class SearchResult<T> implements Serializable{
+public abstract class SearchResult<T> implements Serializable {
     /**
      * 获取指定页数的元素。<br>
      * 如果指定的页数不存在则返回null。<br>

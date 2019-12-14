@@ -23,7 +23,6 @@ import fifthlight.musiccore.song.Song;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 专辑
@@ -70,7 +69,7 @@ public abstract class Album implements Serializable {
      * @throws IOException 网络错误时抛出此异常。
      * @return 专辑的图片，没有则返回空集合
      */
-    public abstract Set<Picture> getPictures() throws IOException;
+    public abstract List<Picture> getPictures() throws IOException;
     
     /**
      * 获取专辑的歌曲列表<br>

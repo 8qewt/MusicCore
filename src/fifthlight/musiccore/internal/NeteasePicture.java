@@ -28,7 +28,7 @@ import java.security.NoSuchAlgorithmException;
  * 网易云的图片
  * @author fifth_light
  */
-public class NeteasePicture extends Picture implements Serializable {
+public class NeteasePicture extends Picture {
     
     private Long id;
     private String neteasePickey;

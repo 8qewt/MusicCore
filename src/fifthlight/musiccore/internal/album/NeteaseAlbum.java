@@ -81,14 +81,14 @@ public class NeteaseAlbum extends Album {
     }
 
     @Override
-    public Set<Picture> getPictures() throws IOException {
-        Set set = new HashSet();
+    public List<Picture> getPictures() throws IOException {
+        List<Picture> list = new ArrayList<Picture>();
         if (shortObj != null) {
-            set.add(new NeteasePicture(shortObj.getLong("pic")));
+            list.add(new NeteasePicture(shortObj.getLong("pic")));
         } else {
-            set.add(new NeteasePicture(fullObj.getLong("picId")));
+            list.add(new NeteasePicture(fullObj.getLong("picId")));
         }
-        return set;
+        return list;
     }
     
     private void getLongObj() throws IOException{

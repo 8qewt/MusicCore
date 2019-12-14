@@ -14,20 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.song;
+package fifthlight.musiccore.song.lyric;
 
-import java.io.IOException;
+import java.io.Serializable;
 
 /**
- *
+ * 歌词。<br>
+ * 这个类所表示的歌词没有时间轴。
  * @author liuyujie
  */
-public abstract class LyricSong extends Song{
+public abstract class Lyric implements Serializable {
     /**
-     * 获取歌曲的歌词<br>
-     * <em>可能会产生网络请求和线程堵塞。</em>
-     * @return 歌曲的歌词文本
-     * @throws IOException 
+     * 获取歌词内容<br>
+     * @return 歌词文本
      */
-    public abstract String getLyric() throws IOException;
+    public abstract String getLyric() ;
 }

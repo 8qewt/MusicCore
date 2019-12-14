@@ -24,8 +24,11 @@ import fifthlight.musiccore.exception.InvaildQualityException;
 import fifthlight.musiccore.internal.album.NeteaseAlbum;
 import fifthlight.musiccore.internal.artist.NeteaseArtist;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.song.lyric.Lyric;
+import fifthlight.musiccore.song.lyric.LrcLyric;
 import fifthlight.musiccore.song.songquality.MP3SongQuality;
 import fifthlight.musiccore.song.songquality.SongQuality;
+import fifthlight.musiccore.util.HTTPUtil;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
 import java.net.URL;
@@ -40,26 +43,27 @@ import java.util.Set;
  */
 public class NeteaseSong extends Song {
     
-    private final JSONObject o;
+    private final JSONObject jsonObj;
+    private JSONObject lyricObj;
 
     public NeteaseSong(JSONObject o){
-        this.o = o;
+        this.jsonObj = o;
     }
     
     @Override
     public String getID() {
-        return String.valueOf(o.getLong("id"));
+        return jsonObj.getString("id");
     }
     
     @Override
     public String getName() {
-        return o.getString("name");
+        return jsonObj.getString("name");
     }
 
     @Override
     public List<String> getSubNames() {
         List<String> result = new ArrayList<String>();
-        for(Object name : o.getJSONArray("alia")){
+        for(Object name : jsonObj.getJSONArray("alia")){
             result.add((String) name);
         }
         return result;
@@ -68,7 +72,7 @@ public class NeteaseSong extends Song {
     @Override
     public List<Artist> getArtists() {
         List<Artist> result = new ArrayList<Artist>();
-        for(Object obj : o.getJSONArray("ar")){
+        for(Object obj : jsonObj.getJSONArray("ar")){
             result.add(new NeteaseArtist((JSONObject) obj, 0));
         }
         return result;
@@ -76,26 +80,26 @@ public class NeteaseSong extends Song {
 
     @Override
     public Album getAlbum() {
-        return new NeteaseAlbum(o.getJSONObject("al"), 0);
+        return new NeteaseAlbum(jsonObj.getJSONObject("al"), 0);
     }
 
     @Override
     public Set<SongQuality> getAvailableQualities() throws IOException {
         Set<SongQuality> result = new HashSet<SongQuality>();
-        if(o.containsKey("l")){
+        if(jsonObj.containsKey("l")){
             result.add(new MP3SongQuality(128000));
         }
-        if(o.containsKey("m")){
+        if(jsonObj.containsKey("m")){
             result.add(new MP3SongQuality(192000));
         }
-        if(o.containsKey("h")){
+        if(jsonObj.containsKey("h")){
             result.add(new MP3SongQuality(320000));
         }
         return result;
     }
 
     @Override
-    public Set<Picture> getPics() throws IOException {
+    public List<Picture> getPics() throws IOException {
         return null;
     }
 
@@ -104,7 +108,7 @@ public class NeteaseSong extends Song {
         if(quality instanceof MP3SongQuality){
             switch(quality.getBps()){
                 case 128000:
-                    if(o.containsKey("l")){
+                    if(jsonObj.containsKey("l")){
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
                         + "],\"br\":128000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
@@ -112,7 +116,7 @@ public class NeteaseSong extends Song {
                         throw new InvaildQualityException();
                     }
                 case 192000:
-                    if(o.containsKey("m")){
+                    if(jsonObj.containsKey("m")){
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
                         + "],\"br\":192000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
@@ -120,7 +124,7 @@ public class NeteaseSong extends Song {
                         throw new InvaildQualityException();
                     }
                 case 320000:
-                    if(o.containsKey("h")){
+                    if(jsonObj.containsKey("h")){
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
                         + "],\"br\":320000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
@@ -133,6 +137,40 @@ public class NeteaseSong extends Song {
         } else {
             throw new InvaildQualityException();
         }
+    }
+    
+    private void getLyricObj() throws IOException{
+        lyricObj = JSONObject.parseObject(HTTPUtil.HTTPRequest("https://music.163.com/api/song/lyric?id=" + this.getID() + "&lv=0&tv=0"));
+    }
+
+    @Override
+    public Lyric getLyric() throws IOException {
+        if(lyricObj == null){
+            getLyricObj();
+        }
+        if(lyricObj.containsKey("lrc")){
+            if(lyricObj.getJSONObject("lrc").containsKey("lyric")){
+                if(!"".equals(lyricObj.getJSONObject("lrc").getString("lyric"))){
+                    return new LrcLyric(lyricObj.getJSONObject("lrc").getString("lyric"));
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Lyric getTranslatedLyric() throws IOException {
+        if(lyricObj == null){
+            getLyricObj();
+        }
+        if(lyricObj.containsKey("tlyric")){
+            if(lyricObj.getJSONObject("tlyric").containsKey("lyric")){
+                if(!"".equals(lyricObj.getJSONObject("tlyric").getString("lyric"))){
+                    return new LrcLyric(lyricObj.getJSONObject("tlyric").getString("lyric"));
+                }
+            }
+        }
+        return null;
     }
     
 }

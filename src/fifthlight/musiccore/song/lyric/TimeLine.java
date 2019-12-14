@@ -14,14 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.song.timelinelyricsong;
-
-import fifthlight.musiccore.song.LyricSong;
+package fifthlight.musiccore.song.lyric;
 
 /**
+ * 时间轴上的一行歌词。
  *
  * @author liuyujie
  */
-public abstract class TimeLineLyricSong extends LyricSong {
-    
+public abstract class TimeLine {
+
+    /**
+     * 获取该行歌词的时间。
+     *
+     * @return 该行歌词的时间。
+     */
+    public abstract double getTime();
+
+    /**
+     * 获取该行歌词的文本内容。
+     *
+     * @return 该行歌词的文本内容
+     */
+    public abstract String getText();
 }
