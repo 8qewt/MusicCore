@@ -50,11 +50,11 @@ public abstract class Song implements Serializable {
     public abstract String getName();
 
     /**
-     * 获取歌曲的副名称列表。
+     * 获取歌曲的标题。
      *
-     * @return 歌曲的副名称列表。
+     * @return 歌曲的标题。
      */
-    public abstract List<String> getSubNames();
+    public abstract String getTitle();
 
     /**
      * 获取歌曲的艺术家列表。

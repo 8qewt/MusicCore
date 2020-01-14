@@ -21,7 +21,6 @@ import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
-import fifthlight.musiccore.song.Song;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -58,24 +57,18 @@ public class TestIDArtistSearch {
         assertTrue("90056".equals(a.getID()) || "18961".equals(a.getID()) || "1142042".equals(a.getID()));
         if ("90056".equals(a.getID())) {
             assertEquals(a.getName(), "C418");
-            List<String> subNames = a.getSubNames();
-            assertEquals(subNames.size(), 2);
-            assertEquals(subNames.get(0), "丹尼尔·罗森菲尔德");
-            assertEquals(subNames.get(1), "Daniel Rosenfeld");
+            assertEquals(a.getTitle(), "C418（丹尼尔·罗森菲尔德、Daniel Rosenfeld）");
         } else if ("414118123".equals(a.getID())) {
             assertEquals(a.getName(), "ClariS");
-            List<String> subNames = a.getSubNames();
-            assertEquals(subNames.size(), 1);
-            assertEquals(subNames.get(0), " クラリス");
+            assertEquals(a.getTitle(), "ClariS（ クラリス）");
         } else if ("1142042".equals(a.getID())) {
             assertEquals(a.getName(), "徐梦圆");
-            List<String> subNames = a.getSubNames();
-            assertEquals(subNames.size(), 0);
+            assertEquals(a.getName(), a.getTitle());
         }
         System.out.println("---Vaild Artist---");
         System.out.println("id: " + a.getID());
         System.out.println("name: " + a.getName());
-        System.out.println("subnames: " + String.join(", ", a.getSubNames()));
+        System.out.println("title: " + a.getTitle());
         System.out.println("description: " + a.getDescription());
         if (a.getPictures() != null) {
             for (Picture p : a.getPictures()) {

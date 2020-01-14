@@ -61,17 +61,13 @@ public class TestIDSongSearch {
         assertTrue("566442486".equals(s.getID()) || "414118123".equals(s.getID()) || "106024".equals(s.getID()));
         if ("566442486".equals(s.getID())) {
             assertEquals(s.getName(), "Resonator");
-            List<String> subNames = s.getSubNames();
-            assertEquals(subNames.size(), 0);
+            assertEquals(s.getName(), s.getTitle());
         } else if ("414118123".equals(s.getID())) {
             assertEquals(s.getName(), "バイバイ YESTERDAY");
-            List<String> subNames = s.getSubNames();
-            assertEquals(subNames.size(), 1);
-            assertEquals(subNames.get(0), "TV动画《暗杀教室2》OP2 ； TVアニメ「暗殺教室」第2期 OP2");
+            assertEquals(s.getTitle(), "バイバイ YESTERDAY（TV动画《暗杀教室2》OP2 ； TVアニメ「暗殺教室」第2期 OP2）");
         } else if ("106024".equals(s.getID())) {
             assertEquals(s.getName(), "国家");
-            List<String> subNames = s.getSubNames();
-            assertEquals(subNames.size(), 0);
+            assertEquals(s.getName(), s.getTitle());
         }
         System.out.println("---Vaild Song---");
         System.out.println("id: " + s.getID());
@@ -80,7 +76,7 @@ public class TestIDSongSearch {
         List<Artist> as = s.getArtists();
         for (Artist a : as) {
             System.out.println("    name:" + a.getName());
-            System.out.println("    subnames:" + String.join(", ", a.getSubNames()));
+            System.out.println("    title:" + a.getTitle());
             System.out.println("    description:" + a.getDescription());
         }
         if (s.getAlbum() != null) {

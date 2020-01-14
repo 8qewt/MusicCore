@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore.internal.artist;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.HotlistAble;
 import fifthlight.musiccore.Picture;
@@ -26,9 +27,7 @@ import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -73,19 +72,24 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
     }
 
     @Override
-    public List<String> getSubNames() throws IOException {
+    public String getTitle() throws IOException {
         if (fullObj == null && halfFullObj == null) {
             getFullObj();
         }
-        List<String> result = new ArrayList<String>();
-        if (fullObj == null) {
-            for (Object name : halfFullObj.getJSONArray("alias")) {
-                result.add((String) name);
-            }
+        String result = this.getName();
+        JSONArray a;
+        if (fullObj != null) {
+            a = fullObj.getJSONObject("artist").getJSONArray("alias");
         } else {
-            for (Object name : fullObj.getJSONObject("artist").getJSONArray("alias")) {
-                result.add((String) name);
+            a = halfFullObj.getJSONArray("alias");
+        }
+        if (!a.isEmpty()) {
+            result += "（";
+            for (Object name : a) {
+                result += name + "、";
             }
+            result = result.substring(0, result.length() - 1);
+            result += "）";
         }
         return result;
     }

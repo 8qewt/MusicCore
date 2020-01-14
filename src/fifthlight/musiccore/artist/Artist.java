@@ -41,12 +41,12 @@ public abstract class Artist implements Serializable {
     
     
     /**
-     * 获取艺术家的副名称列表。<br>
+     * 获取艺术家的标题。<br>
      * <em>可能会产生网络请求和线程堵塞。</em>
-     * @return 艺术家的副名称列表。
+     * @return 艺术家的标题。
      * @throws IOException 网络错误时抛出此异常。
      */
-    public abstract List<String> getSubNames() throws IOException;
+    public abstract String getTitle() throws IOException;
     
     /**
      * 获取艺术家的信息。<br>

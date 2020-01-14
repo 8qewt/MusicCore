@@ -39,32 +39,38 @@ import java.util.Set;
 
 /**
  * 网易云音乐中的一首歌曲
+ *
  * @author fifth_light
  */
 public class NeteaseSong extends Song {
-    
+
     private final JSONObject jsonObj;
     private JSONObject lyricObj;
 
-    public NeteaseSong(JSONObject o){
+    public NeteaseSong(JSONObject o) {
         this.jsonObj = o;
     }
-    
+
     @Override
     public String getID() {
         return jsonObj.getString("id");
     }
-    
+
     @Override
     public String getName() {
         return jsonObj.getString("name");
     }
 
     @Override
-    public List<String> getSubNames() {
-        List<String> result = new ArrayList<String>();
-        for(Object name : jsonObj.getJSONArray("alia")){
-            result.add((String) name);
+    public String getTitle() {
+        String result = this.getName();
+        if (!jsonObj.getJSONArray("alia").isEmpty()) {
+            result += "（";
+            for (Object name : jsonObj.getJSONArray("alia")) {
+                result += name + "、";
+            }
+            result = result.substring(0, result.length() - 1);
+            result += "）";
         }
         return result;
     }
@@ -72,7 +78,7 @@ public class NeteaseSong extends Song {
     @Override
     public List<Artist> getArtists() {
         List<Artist> result = new ArrayList<Artist>();
-        for(Object obj : jsonObj.getJSONArray("ar")){
+        for (Object obj : jsonObj.getJSONArray("ar")) {
             result.add(new NeteaseArtist((JSONObject) obj, 0));
         }
         return result;
@@ -86,13 +92,13 @@ public class NeteaseSong extends Song {
     @Override
     public Set<SongQuality> getAvailableQualities() throws IOException {
         Set<SongQuality> result = new HashSet<SongQuality>();
-        if(jsonObj.containsKey("l")){
+        if (jsonObj.containsKey("l")) {
             result.add(new MP3SongQuality(128000));
         }
-        if(jsonObj.containsKey("m")){
+        if (jsonObj.containsKey("m")) {
             result.add(new MP3SongQuality(192000));
         }
-        if(jsonObj.containsKey("h")){
+        if (jsonObj.containsKey("h")) {
             result.add(new MP3SongQuality(320000));
         }
         return result;
@@ -105,28 +111,28 @@ public class NeteaseSong extends Song {
 
     @Override
     public URL getURL(SongQuality quality) throws InvaildQualityException, IOException {
-        if(quality instanceof MP3SongQuality){
-            switch(quality.getBps()){
+        if (quality instanceof MP3SongQuality) {
+            switch (quality.getBps()) {
                 case 128000:
-                    if(jsonObj.containsKey("l")){
+                    if (jsonObj.containsKey("l")) {
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
-                        + "],\"br\":128000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
+                                + "],\"br\":128000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
                     } else {
                         throw new InvaildQualityException();
                     }
                 case 192000:
-                    if(jsonObj.containsKey("m")){
+                    if (jsonObj.containsKey("m")) {
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
-                        + "],\"br\":192000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
+                                + "],\"br\":192000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
                     } else {
                         throw new InvaildQualityException();
                     }
                 case 320000:
-                    if(jsonObj.containsKey("h")){
+                    if (jsonObj.containsKey("h")) {
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
-                        + "],\"br\":320000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
+                                + "],\"br\":320000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
                     } else {
                         throw new InvaildQualityException();
@@ -138,19 +144,19 @@ public class NeteaseSong extends Song {
             throw new InvaildQualityException();
         }
     }
-    
-    private void getLyricObj() throws IOException{
+
+    private void getLyricObj() throws IOException {
         lyricObj = JSONObject.parseObject(HTTPUtil.HTTPRequest("https://music.163.com/api/song/lyric?id=" + this.getID() + "&lv=0&tv=0"));
     }
 
     @Override
     public Lyric getLyric() throws IOException {
-        if(lyricObj == null){
+        if (lyricObj == null) {
             getLyricObj();
         }
-        if(lyricObj.containsKey("lrc")){
-            if(lyricObj.getJSONObject("lrc").containsKey("lyric")){
-                if(!"".equals(lyricObj.getJSONObject("lrc").getString("lyric"))){
+        if (lyricObj.containsKey("lrc")) {
+            if (lyricObj.getJSONObject("lrc").containsKey("lyric")) {
+                if (!"".equals(lyricObj.getJSONObject("lrc").getString("lyric"))) {
                     return new LrcLyric(lyricObj.getJSONObject("lrc").getString("lyric"));
                 }
             }
@@ -160,17 +166,17 @@ public class NeteaseSong extends Song {
 
     @Override
     public Lyric getTranslatedLyric() throws IOException {
-        if(lyricObj == null){
+        if (lyricObj == null) {
             getLyricObj();
         }
-        if(lyricObj.containsKey("tlyric")){
-            if(lyricObj.getJSONObject("tlyric").containsKey("lyric")){
-                if(!"".equals(lyricObj.getJSONObject("tlyric").getString("lyric"))){
+        if (lyricObj.containsKey("tlyric")) {
+            if (lyricObj.getJSONObject("tlyric").containsKey("lyric")) {
+                if (!"".equals(lyricObj.getJSONObject("tlyric").getString("lyric"))) {
                     return new LrcLyric(lyricObj.getJSONObject("tlyric").getString("lyric"));
                 }
             }
         }
         return null;
     }
-    
+
 }

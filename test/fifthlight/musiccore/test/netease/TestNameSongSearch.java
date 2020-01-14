@@ -51,9 +51,8 @@ public class TestNameSongSearch {
     private void vaildSong(Song s) {
         if ("404543013".equals(s.getID())) {
             assertEquals(s.getName(), "QUESTION");
-            List<String> subNames = s.getSubNames();
-            assertEquals(subNames.size(), 1);
-            assertEquals(subNames.get(0), "TV动画《暗杀教室2》片头曲；TVアニメ『暗殺教室』第2期オープニング・テーマ");
+            String title = s.getTitle();
+            assertEquals(title, "QUESTION（TV动画《暗杀教室2》片头曲；TVアニメ『暗殺教室』第2期オープニング・テーマ）");
         }
         String artists = "";
         List<Artist> as = s.getArtists();
