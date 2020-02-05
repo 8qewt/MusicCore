@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore;
 
+import fifthlight.musiccore.internal.NeteasePicture;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
@@ -26,7 +27,7 @@ import java.net.URL;
  */
 public abstract class Picture implements Serializable {
     /**
-     * 获取封面的URL<br>
+     * 获取图片的URL<br>
      * <em>可能会产生网络请求和线程堵塞。</em>
      * @param xRes x方向的分辨率，如果要获得最大尺寸可以保持0
      * @param yRes y方向的分辨率，如果要获得最大尺寸可以保持0
@@ -34,4 +35,35 @@ public abstract class Picture implements Serializable {
      * @return 封面的URL
      */
     public abstract URL getURL(int xRes, int yRes) throws IOException;
+    
+    /**
+     * 获取图片的ID
+     * @return 图片的ID
+     */
+    public abstract String getID();
+    
+    @Override
+    public String toString(){
+        return getClass().getName() + " {ID: " + this.getID() + "}";
+    }
+    
+    @Override
+    public int hashCode() {
+        return this.getID().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final NeteasePicture other = (NeteasePicture) obj;
+        return this.getID().equals(other.getID());
+    }
 }
