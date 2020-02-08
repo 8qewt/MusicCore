@@ -17,6 +17,7 @@
 package fifthlight.musiccore.util.qq;
 
 import com.alibaba.fastjson.JSONObject;
+import fifthlight.musiccore.exception.ParseException;
 import static fifthlight.musiccore.util.UserAgentUtil.randomUserAgent;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,12 +25,12 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
+import org.dom4j.io.SAXReader;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.xml.sax.SAXException;
 
 /**
@@ -58,27 +59,17 @@ public class QQHTTPUtil {
         return JSONObject.parseObject(result);
     }
     
-    public static Document XMLHTTPRequest(String url) throws MalformedURLException, IOException, SAXException {
+    public static Document XMLHTTPRequest(String url) throws MalformedURLException, IOException {
         URLConnection conn = new URL(url).openConnection();
         conn.addRequestProperty("User-Agent", userAgent);
         conn.addRequestProperty("Cookie", "qqmusic_uin=12345678; qqmusic_key=12345678; qqmusic_fromtag=30; ts_last=y.qq.com/portal/player.html;");
         conn.addRequestProperty("Referer", "https://y.qq.com/portal/player.html");
         conn.connect();
-        String result = "";
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream()));
-        String line;
-        while ((line = br.readLine()) != null) {
-            result += line;
-        }
-        br.close();
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        SAXReader reader = new SAXReader();
         try {
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            return db.parse(result);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(QQHTTPUtil.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            return reader.read(conn.getInputStream());
+        } catch (DocumentException ex) {
+            throw new ParseException();
         }
     }
 }

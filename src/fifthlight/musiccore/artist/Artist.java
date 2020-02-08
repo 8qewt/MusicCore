@@ -62,5 +62,5 @@ public abstract class Artist implements Serializable {
      * @throws IOException 网络错误时抛出此异常。
      * @return 专辑的图片，没有则返回空集合
      */
-    public abstract Set<Picture> getPictures() throws IOException;
+    public abstract List<Picture> getPictures() throws IOException;
 }

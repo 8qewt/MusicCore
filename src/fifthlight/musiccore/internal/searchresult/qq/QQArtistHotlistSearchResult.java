@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 liuyujie
+ * Copyright (C) 2020 liuyujie
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore.internal.searchresult.qq;
 
+import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.internal.song.QQSong;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
@@ -28,31 +29,30 @@ import java.util.List;
  *
  * @author liuyujie
  */
-public class QQIDSongSearchResult extends SearchResult<Song> {
-
-    ArrayList<Song> songs = new ArrayList<Song>();
-
-    public QQIDSongSearchResult(List<String> IDs, boolean isMID) throws IOException {
-        if (isMID) {
-            for (String str : IDs) {
-                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("http://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid="
-                        + str + "&format=json"), QQSong.dataType.FROM_PLAY));
-            }
-        } else {
-            for (String str : IDs) {
-                if (!str.matches("^[0-9]*$")) {
-                    throw new IllegalArgumentException("ID must be a number");
-                }
-                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("http://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songid="
-                        + str + "&format=json"), QQSong.dataType.FROM_PLAY));
-            }
-        }
+public class QQArtistHotlistSearchResult extends SearchResult<Song>{
+    private final JSONObject firstObj;
+    private final long id;
+    
+    public QQArtistHotlistSearchResult(long id, JSONObject o){
+        this.id = id;
+        this.firstObj = o;
     }
-
+    
     @Override
-    public List getItems(int page) throws IOException {
-        if (page == 0) {
-            return songs;
+    public List<Song> getItems(int page) throws IOException {
+        if(page > 0 && page < pageLength()) {
+            JSONObject o;
+            if(page == 0){
+                o = firstObj;
+            } else {
+                o = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?singerid=" + id +
+                        "begin=0&num=30&order=listen&newsong=1&platform=mac");
+            }
+            ArrayList<Song> result = new ArrayList<Song>();
+            for(Object dataObj : o.getJSONObject("data").getJSONArray("list")){
+                result.add(new QQSong(dataObj, QQSong.dataType.FROM_PLAY));
+            }
+            return result;
         } else {
             return null;
         }
@@ -60,12 +60,12 @@ public class QQIDSongSearchResult extends SearchResult<Song> {
 
     @Override
     public int length() {
-        return songs.size();
+        return firstObj.getJSONObject("data").getInteger("total");
     }
 
     @Override
     public int pageLength() {
-        return 1;
+        return (int) Math.ceil(firstObj.getJSONObject("data").getFloat("total") / 30);
     }
-
+    
 }

@@ -44,24 +44,21 @@ public class TestIDSongSearch {
         assertEquals(sr.length(), 1);
         assertEquals(sr.pageLength(), 1);
         vaildSong((QQSong) sr.getItems(0).get(0));
-    }
-
-    /*@Test
-    public void testSearchIDMulti() throws IOException {
-        IDSearch s = new IDSearch(new String[]{"000915uD19lawX", "0045yG4H4P0rMz", "001fHwXQ2JkSes"});
-        SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
-        assertEquals(sr.length(), 3);
+        s = new MIDSearch("0045yG4H4P0rMz");
+        sr = QQMusicFactory.getInstance().getSongs(s);
+        assertEquals(sr.length(), 1);
         assertEquals(sr.pageLength(), 1);
-        for (Song song : sr.getItems(0)) {
-            vaildSong(song);
-        }
-    }*/
+        vaildSong((QQSong) sr.getItems(0).get(0));
+    }
 
     private void vaildSong(QQSong s) throws IOException {
         assertTrue("000915uD19lawX".equals(s.getMID()) || "0045yG4H4P0rMz".equals(s.getMID()));
-        if ("000915uD19lawX".equals(s.getID())) {
+        if ("000915uD19lawX".equals(s.getMID())) {
             assertEquals(s.getName(), "ちょちょちょ!ゆるゆり☆かぷりっちょ!!! (七森中☆生徒会ver.)");
             assertEquals(s.getName(), s.getTitle());
+        } else if("0045yG4H4P0rMz".equals(s.getMID())){
+            assertEquals(s.getName(), "daze");
+            assertEquals(s.getTitle(), "daze (《目隐都市的演绎者》TV动画片头曲)");
         }
         System.out.println("---Vaild Song---");
         System.out.println("id: " + s.getID());
@@ -72,14 +69,19 @@ public class TestIDSongSearch {
             System.out.println("    name:" + a.getName());
             System.out.println("    title:" + a.getTitle());
             System.out.println("    description:" + a.getDescription());
+            if (a.getPictures() != null) {
+                for (Picture p : a.getPictures()) {
+                    System.out.println("    picture:" + p.getURL(0, 0));
+                }
+            }
         }
-        if (s.getAlbum() != null) {
+        /*if (s.getAlbum() != null) {
             if (s.getAlbum().getPictures() != null) {
                 for (Picture p : s.getAlbum().getPictures()) {
                     System.out.println("Album Picture: " + p.getURL(0, 0));
                 }
             }
-        }
+        }*/
         System.out.println("----------------");
     }
 }

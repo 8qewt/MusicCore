@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.internal;
+package fifthlight.musiccore.internal.picture.netease;
 
 import fifthlight.musiccore.util.Base64;
 import fifthlight.musiccore.Picture;

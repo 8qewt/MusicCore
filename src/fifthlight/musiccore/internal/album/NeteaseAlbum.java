@@ -21,7 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
-import fifthlight.musiccore.internal.NeteasePicture;
+import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
 import fifthlight.musiccore.internal.artist.NeteaseArtist;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseSongSearchResult;
 import fifthlight.musiccore.search.searchresult.SearchResult;

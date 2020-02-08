@@ -21,11 +21,13 @@ import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildQualityException;
+import fifthlight.musiccore.internal.artist.QQArtist;
 import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.song.lyric.Lyric;
 import fifthlight.musiccore.song.songquality.SongQuality;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,16 +37,31 @@ import java.util.Set;
  */
 public class QQSong extends Song {
     
-    private final JSONObject playObj;
+    private final JSONObject obj;
     private Long ID;
     private String MID;
+    private dataType dataType;
 
-    public QQSong(JSONObject o, int type) {
+    public enum dataType {
+        FROM_PLAY,
+        FROM_ARTIST_HOTLIST
+    }
+    
+    public QQSong(Object data, dataType type) {
+        this.dataType = type;
         switch(type){
-            case 0:
-                playObj = o;
-                ID = Long.valueOf(o.getJSONArray("data").getJSONObject(0).getString("id"));
-                MID = o.getJSONArray("data").getJSONObject(0).getString("mid");
+            case FROM_PLAY:
+                JSONObject jsonData = (JSONObject) data;
+                obj = jsonData.getJSONArray("data").getJSONObject(0);
+                ID = Long.valueOf(obj.getString("id"));
+                MID = obj.getString("mid");
+                break;
+                
+            case FROM_ARTIST_HOTLIST:
+                jsonData = (JSONObject) data;
+                obj = jsonData.getJSONObject("musicData");
+                ID = obj.getLong("id");
+                MID = obj.getString("mid");
                 break;
             
             default:
@@ -58,30 +75,37 @@ public class QQSong extends Song {
     }
     
     public String getMID() {
-        return String.valueOf(MID);
+        return MID;
     }
     
     @Override
     public String getName() {
-        if(playObj != null){
-            return playObj.getJSONArray("data").getJSONObject(0).getString("name");
+        if(dataType == dataType.FROM_PLAY){
+            return obj.getString("name");
         } else {
-            throw new RuntimeException();
+            return obj.getString("name");
         }
     }
 
     @Override
     public String getTitle() {
-        if(playObj != null){
-            return playObj.getJSONArray("data").getJSONObject(0).getString("title");
-        } else {
-            throw new RuntimeException();
+        if(!"".equals(obj.getString("subtitle"))){
+            return obj.getString("title") + " (" + obj.getString("subtitle") + ")";
         }
+        return obj.getString("title");
     }
 
     @Override
     public List<Artist> getArtists() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(obj != null){
+            ArrayList<Artist> result = new ArrayList<Artist>();
+            for(Object o : obj.getJSONArray("singer")){
+                result.add(new QQArtist(o, QQArtist.dataType.FROM_PLAY));
+            }
+            return result;
+        } else {
+            throw new RuntimeException();
+        }
     }
 
     @Override

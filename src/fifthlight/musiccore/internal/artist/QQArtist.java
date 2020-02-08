@@ -16,16 +16,21 @@
  */
 package fifthlight.musiccore.internal.artist;
 
+import fifthlight.musiccore.internal.searchresult.EmptySearchResult;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.HotlistAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
+import fifthlight.musiccore.internal.picture.qq.QQArtistPicture;
+import fifthlight.musiccore.internal.searchresult.qq.QQArtistHotlistSearchResult;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.qq.QQHTTPUtil;
 import java.io.IOException;
-import java.util.Set;
-import org.w3c.dom.Document;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.dom4j.Document;
 
 /**
  *
@@ -34,21 +39,19 @@ import org.w3c.dom.Document;
 public class QQArtist extends Artist implements HotlistAble<Song> {
 
     private JSONObject shortObj;
-    private JSONObject infoObj;
-    private Document fullObj;
-    private Long id;
+    private Document infoObj;
+    private long id;
     private String mid;
 
-    public QQArtist(Object o, int type) {
+    public enum dataType {
+        FROM_PLAY
+    }
+    public QQArtist(Object o, dataType type) {
         switch (type) {
-            case 0:
+            case FROM_PLAY:
                 shortObj = (JSONObject) o;
                 id = shortObj.getLong("id");
                 mid = shortObj.getString("mid");
-                break;
-            case 1:
-                fullObj = (Document) o;
-                id = Long.parseLong(fullObj.getElementsByTagName("id").item(0).getTextContent());
                 break;
             default:
                 throw new RuntimeException();
@@ -60,7 +63,7 @@ public class QQArtist extends Artist implements HotlistAble<Song> {
         if (shortObj != null) {
             return shortObj.getString("name");
         } else {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return null;
         }
     }
 
@@ -68,35 +71,53 @@ public class QQArtist extends Artist implements HotlistAble<Song> {
     public String getTitle() {
         if (shortObj != null) {
             return shortObj.getString("title");
-        }else {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        } else {
+            return null;
         }
     }
-    
-    private void getInfo() throws IOException{
-        infoObj = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?singerid=" + id + "begin=0&num=0&order=listen&newsong=1&platform=mac");
+
+    private void getInfo() throws IOException {
+        if (id != 0) {
+            infoObj = QQHTTPUtil.XMLHTTPRequest("https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_singer_desc.fcg?format=xml&singermid="
+                    + mid + "&utf8=1&outCharset=utf-8&r=" + new Date().getTime());
+        }
     }
 
     @Override
-    public Set<Picture> getPictures() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Picture> getPictures() throws IOException {
+        List<Picture> list = new ArrayList<Picture>();
+        if(id != 0){
+            list.add(new QQArtistPicture(this.mid));
+        }
+        return list;
     }
 
     @Override
     public SearchResult<Song> getHotList() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (id == 0) {
+            return new EmptySearchResult();
+        }
+        return new QQArtistHotlistSearchResult(id,
+                QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?singerid="
+                        + id + "begin=0&num=30&order=listen&newsong=1&platform=mac"));
     }
 
     @Override
     public String getDescription() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (id == 0) {
+            return null;
+        }
+        if (infoObj == null) {
+            getInfo();
+        }
+        return infoObj.selectSingleNode("//desc").getText();
     }
 
     @Override
     public String getID() {
         return String.valueOf(id);
     }
-    
+
     public String getMID() {
         return mid;
     }
