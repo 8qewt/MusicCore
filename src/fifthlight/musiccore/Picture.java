@@ -16,7 +16,7 @@
  */
 package fifthlight.musiccore;
 
-import fifthlight.musiccore.internal.NeteasePicture;
+import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;

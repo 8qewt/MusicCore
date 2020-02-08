@@ -20,7 +20,7 @@ import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildQualityException;
-import fifthlight.musiccore.internal.NeteasePicture;
+import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
 import fifthlight.musiccore.song.lyric.Lyric;
 import fifthlight.musiccore.song.songquality.SongQuality;
 import java.io.IOException;

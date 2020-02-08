@@ -21,13 +21,15 @@ import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.HotlistAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
-import fifthlight.musiccore.internal.NeteasePicture;
+import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseArtistHotlistSearchResult;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -95,16 +97,16 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
     }
 
     @Override
-    public Set<Picture> getPictures() throws IOException {
-        Set set = new HashSet();
+    public List<Picture> getPictures() throws IOException {
+        List<Picture> list  = new ArrayList<Picture>();
         if (shortObj != null) {
-            set.add(new NeteasePicture(shortObj.getLong("pic")));
+            list.add(new NeteasePicture(shortObj.getLong("pic")));
         } else if (fullObj != null) {
-            set.add(new NeteasePicture(fullObj.getJSONObject("artist").getLong("picId")));
+            list.add(new NeteasePicture(fullObj.getJSONObject("artist").getLong("picId")));
         } else {
-            set.add(new NeteasePicture(halfFullObj.getLong("picId")));
+            list.add(new NeteasePicture(halfFullObj.getLong("picId")));
         }
-        return set;
+        return list;
     }
 
     @Override

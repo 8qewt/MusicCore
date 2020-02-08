@@ -18,7 +18,7 @@ package fifthlight.musiccore.internal.playlist;
 
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.Picture;
-import fifthlight.musiccore.internal.NeteasePicture;
+import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
 import fifthlight.musiccore.internal.searchresult.netease.NeteaseSongSearchResult;
 import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.searchresult.SearchResult;
