@@ -62,5 +62,10 @@ public class NeteasePicture extends Picture {
             return new URL("https://p3.music.126.net/" + neteasePickey + "/" + id + ".jpg?param=" + xRes  +"y" + yRes);
         }
     }
+
+    @Override
+    public String getID() {
+        return String.valueOf(id);
+    }
     
 }

@@ -35,5 +35,10 @@ public class QQArtistPicture extends Picture {
     public URL getURL(int xRes, int yRes) throws IOException {
         return new URL("https://y.gtimg.cn/music/photo_new/T001M000" + mid + ".jpg");
     }
+
+    @Override
+    public String getID() {
+        return "QQMusicArtistMID: " + mid;
+    }
     
 }

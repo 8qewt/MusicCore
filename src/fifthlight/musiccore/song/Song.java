@@ -20,6 +20,7 @@ import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildQualityException;
+import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
 import fifthlight.musiccore.song.lyric.Lyric;
 import fifthlight.musiccore.song.songquality.SongQuality;
 import java.io.IOException;
@@ -141,4 +142,30 @@ public abstract class Song implements Serializable {
      * @return 歌曲的下载URL。
      */
     public abstract URL getURL(SongQuality quality) throws InvaildQualityException, IOException;
+    
+    @Override
+    public String toString(){
+        return getClass().getName() + " {ID: " + this.getID() + "}";
+    }
+    
+    @Override
+    public int hashCode() {
+        return this.getID().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Song other = (Song) obj;
+        return this.getID().equals(other.getID());
+    }
+    
 }
