@@ -63,7 +63,7 @@ public abstract class Picture implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final NeteasePicture other = (NeteasePicture) obj;
+        final Picture other = (Picture) obj;
         return this.getID().equals(other.getID());
     }
 }

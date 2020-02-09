@@ -164,7 +164,7 @@ public abstract class Song implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final NeteasePicture other = (NeteasePicture) obj;
+        final Song other = (Song) obj;
         return this.getID().equals(other.getID());
     }
     
