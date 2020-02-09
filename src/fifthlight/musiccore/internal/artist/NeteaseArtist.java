@@ -28,9 +28,8 @@ import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.List;
 
 /**
  *
@@ -98,7 +97,7 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
 
     @Override
     public List<Picture> getPictures() throws IOException {
-        List<Picture> list  = new ArrayList<Picture>();
+        List<Picture> list = new ArrayList<Picture>();
         if (shortObj != null) {
             list.add(new NeteasePicture(shortObj.getLong("pic")));
         } else if (fullObj != null) {
