@@ -19,10 +19,8 @@ package fifthlight.musiccore.internal.searchresult.netease;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.internal.artist.NeteaseArtist;
-import fifthlight.musiccore.internal.song.NeteaseSong;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
-import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,7 +47,7 @@ public class NeteaseNameArtistSearchResult extends SearchResult<Artist> {
                 + "\",\"type\":100,\"total\":true,\"limit\":"
                 + pageSize
                 + ",\"offset\":"
-                + page
+                + page * pageSize
                 + "},\"url\":\"http://music.163.com/api/cloudsearch/pc\"}");
     }
 

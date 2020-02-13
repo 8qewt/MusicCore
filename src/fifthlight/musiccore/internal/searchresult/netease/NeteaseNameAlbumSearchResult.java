@@ -47,7 +47,7 @@ public class NeteaseNameAlbumSearchResult extends SearchResult<Album> {
                 + "\",\"type\":10,\"total\":true,\"limit\":"
                 + pageSize
                 + ",\"offset\":"
-                + page
+                + page * pageSize
                 + "},\"url\":\"http://music.163.com/api/cloudsearch/pc\"}");
     }
 
