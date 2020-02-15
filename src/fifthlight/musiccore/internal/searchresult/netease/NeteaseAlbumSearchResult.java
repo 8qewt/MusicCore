@@ -19,8 +19,6 @@ package fifthlight.musiccore.internal.searchresult.netease;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.internal.album.NeteaseAlbum;
-import fifthlight.musiccore.internal.playlist.NeteasePlaylist;
-import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import java.io.IOException;
 import java.util.ArrayList;

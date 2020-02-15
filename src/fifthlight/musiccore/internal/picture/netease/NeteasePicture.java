@@ -19,7 +19,6 @@ package fifthlight.musiccore.internal.picture.netease;
 import fifthlight.musiccore.util.Base64;
 import fifthlight.musiccore.Picture;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

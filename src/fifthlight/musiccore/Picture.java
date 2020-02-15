@@ -16,7 +16,7 @@
  */
 package fifthlight.musiccore;
 
-import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
+import fifthlight.musiccore.interfaces.IdentifierAble;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
@@ -25,7 +25,7 @@ import java.net.URL;
  * 歌曲图片与封面图片等图片。
  * @author fifth_light
  */
-public abstract class Picture implements Serializable {
+public abstract class Picture implements Serializable, IdentifierAble {
     /**
      * 获取图片的URL<br>
      * <em>可能会产生网络请求和线程堵塞。</em>
@@ -35,12 +35,6 @@ public abstract class Picture implements Serializable {
      * @return 封面的URL
      */
     public abstract URL getURL(int xRes, int yRes) throws IOException;
-    
-    /**
-     * 获取图片的ID
-     * @return 图片的ID
-     */
-    public abstract String getID();
     
     @Override
     public String toString(){

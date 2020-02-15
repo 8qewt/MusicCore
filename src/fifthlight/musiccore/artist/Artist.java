@@ -17,28 +17,21 @@
 package fifthlight.musiccore.artist;
 
 import fifthlight.musiccore.Picture;
+import fifthlight.musiccore.interfaces.IdentifierAble;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 艺术家
  * @author fifth_light
  */
-public abstract class Artist implements Serializable {
+public abstract class Artist implements Serializable, IdentifierAble {
     /**
      * 获取艺术家的名称。
      * @return 艺术家的名称。
      */
     public abstract String getName();
-    
-    /**
-     * 获取艺术家的ID。
-     * @return 艺术家的ID。
-     */
-    public abstract String getID();
-    
     
     /**
      * 获取艺术家的标题。<br>

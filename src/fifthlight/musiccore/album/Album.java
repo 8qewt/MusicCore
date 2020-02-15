@@ -18,6 +18,7 @@ package fifthlight.musiccore.album;
 
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
+import fifthlight.musiccore.interfaces.IdentifierAble;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import java.io.IOException;
@@ -28,18 +29,12 @@ import java.util.List;
  * 专辑
  * @author fifth_light
  */
-public abstract class Album implements Serializable {
+public abstract class Album implements Serializable, IdentifierAble {
     /**
      * 获取专辑的名称。
      * @return 专辑的名称。
      */
     public abstract String getName();
-    
-    /**
-     * 获取专辑的ID。
-     * @return 专辑的ID。
-     */
-    public abstract String getID();
     
     /**
      * 获取专辑的艺术家列表。

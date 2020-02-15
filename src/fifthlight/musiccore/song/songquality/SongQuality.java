@@ -45,11 +45,7 @@ public abstract class SongQuality implements Serializable {
     public boolean equals(Object o){
         if(o != null && o instanceof SongQuality){
             SongQuality songQuality = (SongQuality) o;
-            if(this.isLossLess() == songQuality.isLossLess() && this.getBps() == songQuality.getBps() && this.getType() == songQuality.getType()){
-                return true;
-            } else {
-                return false;
-            }
+            return this.isLossLess() == songQuality.isLossLess() && this.getBps() == songQuality.getBps() && this.getType().equals(songQuality.getType());
         } else {
             return false;
         }

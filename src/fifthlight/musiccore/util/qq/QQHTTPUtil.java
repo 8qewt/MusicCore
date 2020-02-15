@@ -25,13 +25,9 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.dom4j.io.SAXReader;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.xml.sax.SAXException;
 
 /**
  * QQ HTTP工具类

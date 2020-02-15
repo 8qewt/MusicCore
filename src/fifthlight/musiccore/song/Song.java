@@ -20,7 +20,7 @@ import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildQualityException;
-import fifthlight.musiccore.internal.picture.netease.NeteasePicture;
+import fifthlight.musiccore.interfaces.IdentifierAble;
 import fifthlight.musiccore.song.lyric.Lyric;
 import fifthlight.musiccore.song.songquality.SongQuality;
 import java.io.IOException;
@@ -34,14 +34,7 @@ import java.util.Set;
  *
  * @author fifth_light
  */
-public abstract class Song implements Serializable {
-
-    /**
-     * 获取歌曲的ID。
-     *
-     * @return 歌曲的ID。
-     */
-    public abstract String getID();
+public abstract class Song implements Serializable, IdentifierAble {
 
     /**
      * 获取歌曲的名称。

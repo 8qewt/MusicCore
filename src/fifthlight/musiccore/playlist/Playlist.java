@@ -17,6 +17,7 @@
 package fifthlight.musiccore.playlist;
 
 import fifthlight.musiccore.Picture;
+import fifthlight.musiccore.interfaces.IdentifierAble;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import java.io.IOException;
@@ -28,12 +29,7 @@ import java.util.Set;
  * 播放列表
  * @author fifth_light
  */
-public abstract class Playlist implements Serializable {
-    /**
-     * 获取播放列表的ID。
-     * @return 播放列表的ID。
-     */
-    public abstract String getID();
+public abstract class Playlist implements Serializable, IdentifierAble {
     
     /**
      * 获取播放列表的名称。
