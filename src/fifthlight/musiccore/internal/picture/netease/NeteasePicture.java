@@ -33,7 +33,7 @@ public class NeteasePicture extends Picture {
     private String neteasePickey;
     private static final byte magic[] = "3go8&$8*3*3h0k(2)2".getBytes();
     
-    public NeteasePicture(Long id){
+    public NeteasePicture(long id){
         try {
             this.id = id;
             byte[] idChar = String.valueOf(id).getBytes();

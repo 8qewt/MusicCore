@@ -31,7 +31,7 @@ public abstract class SongQuality implements Serializable {
     
     /**
      * 返回这个音质的比特率。
-     * @return 如果已知则返回音质的比特率，否则返回null。
+     * @return 如果已知则返回音质的比特率，否则返回-1。
      */
     public abstract int getBps();
     

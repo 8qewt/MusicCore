@@ -97,9 +97,10 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
     @Override
     public List<Picture> getPictures() throws IOException {
         List<Picture> list = new ArrayList<Picture>();
-        if (shortObj != null) {
-            list.add(new NeteasePicture(shortObj.getLong("pic")));
-        } else if (fullObj != null) {
+        if(fullObj == null && halfFullObj == null){
+            getFullObj();
+        }
+        if (fullObj != null) {
             list.add(new NeteasePicture(fullObj.getJSONObject("artist").getLong("picId")));
         } else {
             list.add(new NeteasePicture(halfFullObj.getLong("picId")));

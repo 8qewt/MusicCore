@@ -27,12 +27,8 @@ public class FLACSongQuality extends SongQuality {
     /**
      * 构建一个FLAC音质对象。
      * @param bps 比特率，例如320000，192000
-     * @throws IllegalArgumentException 比特率为0或负数时抛出
      */
-    public FLACSongQuality(int bps) throws IllegalArgumentException {
-        if(bps <= 0){
-            throw new IllegalArgumentException();
-        }
+    public FLACSongQuality(int bps) {
         this.bps = bps;
     }
     
