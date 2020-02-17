@@ -68,7 +68,7 @@ public class NeteaseMusicFactory extends MusicFactory {
             }
             return new NeteaseSongSearchResult(NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"c\":\""
                     + ("[" + sList + "]").replace("\"", "\\\"")
-                    + "\"},\"url\":\"http://music.163.com/api/v3/song/detail\"}"), 0);
+                    + "\"},\"url\":\"https://music.163.com/api/v3/song/detail\"}"), 0);
         } else if (search instanceof NameSearch) {
             return new NeteaseNameSongSearchResult((NameSearch) search);
         } else {
@@ -84,7 +84,7 @@ public class NeteaseMusicFactory extends MusicFactory {
             List<JSONObject> results = new ArrayList<JSONObject>();
             for (int i = 0; i < ids.size(); i++) {
                 results.add(NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + ids.get(i)
-                    + ",\"ext\":true,\"top\":0},\"url\":\"http://music.163.com/api/v1/artist/" + ids.get(i) + "\"}"));
+                    + ",\"ext\":true,\"top\":0},\"url\":\"https://music.163.com/api/v1/artist/" + ids.get(i) + "\"}"));
             }
             return new NeteaseArtistSearchResult(results);
         } else if (search instanceof NameSearch) {
@@ -102,7 +102,7 @@ public class NeteaseMusicFactory extends MusicFactory {
             List<JSONObject> results = new ArrayList<JSONObject>();
             for (int i = 0; i < ids.size(); i++) {
                 results.add(NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + ids.get(i)
-                        + "},\"url\":\"http://music.163.com/api/v1/album/" + ids.get(i) + "\"}"));
+                        + "},\"url\":\"https://music.163.com/api/v1/album/" + ids.get(i) + "\"}"));
             }
             return new NeteaseAlbumSearchResult(results, 0);
         } else if (search instanceof NameSearch) {
@@ -120,7 +120,7 @@ public class NeteaseMusicFactory extends MusicFactory {
             List<JSONObject> results = new ArrayList<JSONObject>();
             for (int i = 0; i < ids.size(); i++) {
                 results.add(NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"id\":" + ids.get(i)
-                        + ",\"n\":65536},\"url\":\"http://music.163.com/api/v3/playlist/detail\"}"));
+                        + ",\"n\":65536},\"url\":\"https://music.163.com/api/v3/playlist/detail\"}"));
             }
             return new NeteasePlaylistSearchResult(results, 0);
         } else if (search instanceof NameSearch) {

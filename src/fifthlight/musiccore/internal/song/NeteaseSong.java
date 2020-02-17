@@ -116,7 +116,7 @@ public class NeteaseSong extends Song {
                 case 128000:
                     if (jsonObj.containsKey("l")) {
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
-                                + "],\"br\":128000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
+                                + "],\"br\":128000},\"url\":\"https://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
                     } else {
                         throw new InvaildQualityException();
@@ -124,7 +124,7 @@ public class NeteaseSong extends Song {
                 case 192000:
                     if (jsonObj.containsKey("m")) {
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
-                                + "],\"br\":192000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
+                                + "],\"br\":192000},\"url\":\"https://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
                     } else {
                         throw new InvaildQualityException();
@@ -132,7 +132,7 @@ public class NeteaseSong extends Song {
                 case 320000:
                     if (jsonObj.containsKey("h")) {
                         JSONObject result = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"ids\":[" + getID()
-                                + "],\"br\":320000},\"url\":\"http://music.163.com/api/song/enhance/player/url\"}");
+                                + "],\"br\":320000},\"url\":\"https://music.163.com/api/song/enhance/player/url\"}");
                         return new URL(result.getJSONArray("data").getJSONObject(0).getString("url"));
                     } else {
                         throw new InvaildQualityException();

@@ -70,7 +70,7 @@ public class NeteasePlaylist extends Playlist {
     public SearchResult<Song> getSongs() throws IOException {
         if(fullObj == null){
             fullObj = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"POST\",\"params\":{\"id\":" + getID()
-                        + ",\"n\":65536},\"url\":\"http://music.163.com/api/v3/playlist/detail\"}");
+                        + ",\"n\":65536},\"url\":\"https://music.163.com/api/v3/playlist/detail\"}");
         }
         return new NeteaseSongSearchResult(fullObj.getJSONObject("playlist"), 1);
     }

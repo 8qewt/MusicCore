@@ -93,8 +93,4 @@ public class NeteaseHTTPUtil {
             throw new RuntimeException(ex);
         }
     }
-
-    public static JSONObject getJSONWeapi(String url) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

@@ -38,8 +38,6 @@ public class TestNamePlaylistSearch {
     public void testSearchNameOnce() throws IOException {
         NameSearch s = new NameSearch("59首MC全曲");
         SearchResult<Playlist> sr = NeteaseMusicFactory.getInstance().getPlaylists(s);
-        assertEquals(sr.length(), 219);
-        assertEquals(sr.pageLength(), 8);
         vaildSong(sr.getItems(0).get(0));
     }
 

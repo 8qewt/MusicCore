@@ -35,7 +35,7 @@ public class QQIDSongSearchResult extends SearchResult<Song> {
     public QQIDSongSearchResult(List<String> IDs, boolean isMID) throws IOException {
         if (isMID) {
             for (String str : IDs) {
-                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("http://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid="
+                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid="
                         + str + "&format=json"), QQSong.dataType.FROM_PLAY));
             }
         } else {
@@ -43,7 +43,7 @@ public class QQIDSongSearchResult extends SearchResult<Song> {
                 if (!str.matches("^[0-9]*$")) {
                     throw new IllegalArgumentException("ID must be a number");
                 }
-                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("http://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songid="
+                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songid="
                         + str + "&format=json"), QQSong.dataType.FROM_PLAY));
             }
         }

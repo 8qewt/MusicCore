@@ -91,7 +91,7 @@ public class NeteaseAlbum extends Album {
     
     private void getLongObj() throws IOException{
         fullObj = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + id
-                    + "},\"url\":\"http://music.163.com/api/v1/album/" + id + "\"}");
+                    + "},\"url\":\"https://music.163.com/api/v1/album/" + id + "\"}");
     }
 
     @Override

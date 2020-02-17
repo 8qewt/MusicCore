@@ -126,7 +126,7 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
 
     private void getFullObj() throws IOException {
         fullObj = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + id
-                + ",\"ext\":true,\"top\":0},\"url\":\"http://music.163.com/api/v1/artist/" + id + "\"}");
+                + ",\"ext\":true,\"top\":0},\"url\":\"https://music.163.com/api/v1/artist/" + id + "\"}");
     }
 
     @Override
