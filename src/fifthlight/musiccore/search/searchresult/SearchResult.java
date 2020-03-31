@@ -62,8 +62,12 @@ public abstract class SearchResult<T> implements Serializable {
         List<T> tmpl;
         do {
             tmpl = getItems(i++);
-            l.add(tmpl);
-        } while (tmpl != null || i < pageLength());
+            if(tmpl != null){
+                l.add(tmpl);
+            } else {
+                break;
+            }
+        } while (i < pageLength());
         return l;
     }
     
@@ -80,8 +84,10 @@ public abstract class SearchResult<T> implements Serializable {
             tmpl = getItems(i++);
             if(tmpl != null){
                 l.addAll(tmpl);
+            } else {
+                break;
             }
-        } while (tmpl != null || i < pageLength());
+        } while (i < pageLength());
         return l;
     }
 }
