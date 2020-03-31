@@ -21,11 +21,30 @@ package fifthlight.musiccore.interfaces;
  * 其ID可以在同一个类的对象内标志自身。
  * @author liuyujie
  */
-public interface IdentifierAble {
+public abstract class IdentifierAble {
     /**
      * 获取对象的ID。
      *
      * @return 对象的ID。
      */
-    public String getID();
+    public abstract String getID();
+    
+    @Override
+    public int hashCode(){
+        return getID().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        return getID().equals(((IdentifierAble) obj).getID());
+    }
 }

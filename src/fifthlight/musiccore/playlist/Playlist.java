@@ -29,7 +29,7 @@ import java.util.Set;
  * 播放列表
  * @author fifth_light
  */
-public abstract class Playlist implements Serializable, IdentifierAble {
+public abstract class Playlist extends IdentifierAble implements Serializable {
     
     /**
      * 获取播放列表的名称。

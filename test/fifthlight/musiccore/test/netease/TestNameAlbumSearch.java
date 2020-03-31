@@ -22,7 +22,6 @@ import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import java.io.IOException;
-import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -40,24 +39,23 @@ public class TestNameAlbumSearch {
         assertEquals(sr.length(), 7);
         assertEquals(sr.pageLength(), 1);
         vaildAlbum(sr.getItems(0).get(0));
-        vaildAlbum(sr.getItems(0).get(4));
+        vaildAlbum(sr.getItems(0).get(3));
     }
 
     private void vaildAlbum(Album a) throws IOException {
         assertTrue("2512603".equals(a.getID()) || "39391231".equals(a.getID()));
         if ("2512603".equals(a.getID())) {
             assertEquals(a.getName(), "YURUYURI♪1st.Series Best Album“ゆるゆりずむ♪”");
-            assertEquals(a.getSubNames().size(), 0);
             assertEquals(a.getSongs().length(), 25);
         } else if ("39391231".equals(a.getID())) {
             assertEquals(a.getName(), "ゆるゆりのおんがく♪ YURUYURI ORIGINALSOUNDTRACK");
-            assertEquals(a.getSubNames().size(), 1);
-            assertEquals(a.getSubNames().get(0), "摇曳百合 原声带");
+            assertEquals(a.getTitle(), "ゆるゆりのおんがく♪ YURUYURI ORIGINALSOUNDTRACK（摇曳百合 原声带）");
             assertEquals(a.getSongs().length(), 34);
         }
         System.out.println("---Vaild Album---");
         System.out.println("id: " + a.getID());
         System.out.println("name: " + a.getName());
+        System.out.println("title: " + a.getTitle());
         System.out.println("songs: ");
         int i = 0;
         for (Song s : a.getSongs().getItems()) {

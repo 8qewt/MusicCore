@@ -46,7 +46,13 @@ public class NeteaseSong extends Song {
 
     private final JSONObject jsonObj;
     private JSONObject lyricObj;
-
+    
+    /**
+     * 创建一个NeteaseSong。
+     * 请不要使用这个方法创建NeteaseSong！
+     * 正确的方法是使用MusicFactory创建。
+     * @param o 初始化NeteaseSong的数据
+     */
     public NeteaseSong(JSONObject o) {
         this.jsonObj = o;
     }

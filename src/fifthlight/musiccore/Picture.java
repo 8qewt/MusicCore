@@ -25,7 +25,7 @@ import java.net.URL;
  * 歌曲图片与封面图片等图片。
  * @author fifth_light
  */
-public abstract class Picture implements Serializable, IdentifierAble {
+public abstract class Picture extends IdentifierAble implements Serializable {
     /**
      * 获取图片的URL<br>
      * <em>可能会产生网络请求和线程堵塞。</em>
@@ -39,25 +39,5 @@ public abstract class Picture implements Serializable, IdentifierAble {
     @Override
     public String toString(){
         return getClass().getName() + " {ID: " + this.getID() + "}";
-    }
-    
-    @Override
-    public int hashCode() {
-        return this.getID().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Picture other = (Picture) obj;
-        return this.getID().equals(other.getID());
     }
 }

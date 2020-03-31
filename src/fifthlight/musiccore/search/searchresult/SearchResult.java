@@ -28,7 +28,7 @@ import java.util.List;
  */
 public abstract class SearchResult<T> implements Serializable {
     /**
-     * 获取指定页数的元素。<br>
+     * 获取指定页数的元素。页数从0开始。<br>
      * 如果指定的页数不存在则返回null。<br>
      * <em>可能会产生网络请求和线程堵塞。</em>
      * 不保证每页的元素数相同。<br>
@@ -40,14 +40,14 @@ public abstract class SearchResult<T> implements Serializable {
     
     /**
      * 返回搜索结果中共有多少元素
-     * @return 如果长度已知则返回，否则返回null
+     * @return 如果长度已知则返回，否则返回-1
      */
     public abstract int length();
     
     
     /**
      * 返回搜索结果中共有多少页面
-     * @return 如果页面长度已知则返回，否则返回null
+     * @return 如果页面长度已知则返回，否则返回-1
      */
     public abstract int pageLength();
     

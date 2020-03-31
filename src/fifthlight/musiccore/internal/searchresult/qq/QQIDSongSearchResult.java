@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore.internal.searchresult.qq;
 
+import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.internal.song.QQSong;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
@@ -35,16 +36,20 @@ public class QQIDSongSearchResult extends SearchResult<Song> {
     public QQIDSongSearchResult(List<String> IDs, boolean isMID) throws IOException {
         if (isMID) {
             for (String str : IDs) {
-                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid="
-                        + str + "&format=json"), QQSong.dataType.FROM_PLAY));
+                JSONObject jsonData = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid="
+                        + str + "&format=json");
+                if(jsonData != null){
+                    songs.add(new QQSong(jsonData, QQSong.dataType.FROM_PLAY));
+                }
             }
         } else {
             for (String str : IDs) {
                 if (!str.matches("^[0-9]*$")) {
                     throw new IllegalArgumentException("ID must be a number");
                 }
-                songs.add(new QQSong(QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songid="
-                        + str + "&format=json"), QQSong.dataType.FROM_PLAY));
+                JSONObject jsonData = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songid="
+                        + str + "&format=json");
+                songs.add(new QQSong(jsonData, QQSong.dataType.FROM_PLAY));
             }
         }
     }

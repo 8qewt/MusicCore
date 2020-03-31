@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 liuyujie
+ * Copyright (C) 2020 fifth_light
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,35 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.internal.searchresult;
-
-import fifthlight.musiccore.search.searchresult.SearchResult;
-import java.io.IOException;
-import java.util.List;
+package fifthlight.musiccore.interfaces;
 
 /**
- *
+ * 可以获取到MID的对象
+ * QQ音乐的对象不仅有ID还有MID
  * @author liuyujie
- * @param <T>
  */
-public class EmptySearchResult<T> extends SearchResult<T> {
-
-    public EmptySearchResult() {
-    }
-
-    @Override
-    public List<T> getItems(int page) throws IOException {
-        return null;
-    }
-
-    @Override
-    public int length() {
-        return 0;
-    }
-
-    @Override
-    public int pageLength() {
-        return 0;
-    }
-    
+public interface MIDGetAble {
+    /**
+     * 获取对象的MID
+     * @return 对象的MID
+     */
+    public String getMID();
 }

@@ -38,7 +38,7 @@ public class QQArtistPicture extends Picture {
 
     @Override
     public String getID() {
-        return "QQMusicArtistMID: " + mid;
+        return mid;
     }
     
 }

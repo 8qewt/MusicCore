@@ -26,7 +26,7 @@ import java.util.List;
  * 艺术家
  * @author fifth_light
  */
-public abstract class Artist implements Serializable, IdentifierAble {
+public abstract class Artist extends IdentifierAble implements Serializable {
     /**
      * 获取艺术家的名称。
      * @return 艺术家的名称。

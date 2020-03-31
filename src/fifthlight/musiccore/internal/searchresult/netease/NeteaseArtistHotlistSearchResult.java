@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.internal.song.NeteaseSong;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.netease.NeteaseHTTPUtil;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,16 +31,27 @@ import java.util.List;
  */
 public class NeteaseArtistHotlistSearchResult extends SearchResult<Song> {
 
+    private final int allSize = 50;
+    private final long artistID;
     private final ArrayList<Song> songs = new ArrayList<Song>();
 
-    public NeteaseArtistHotlistSearchResult(JSONObject obj) {
-        for (Object o : obj.getJSONObject("artist").getJSONArray("hotSongs")) {
-            songs.add(new NeteaseSong((JSONObject) o));
+    public NeteaseArtistHotlistSearchResult(long artistID) {
+        this.artistID = artistID;
+    }
+    
+    private void fetchSongs() throws IOException{
+        if(songs.isEmpty()){
+            JSONObject o = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + artistID
+                + ",\"ext\":true,\"top\":" + allSize + "},\"url\":\"https://music.163.com/api/v1/artist/" + artistID + "\"}");
+            for(Object song : o.getJSONArray("hotSongs")){
+                songs.add(new NeteaseSong((JSONObject) song));
+            }
         }
     }
 
     @Override
     public List<Song> getItems(int page) throws IOException {
+        fetchSongs();
         if (page == 0) {
             return songs;
         } else {
@@ -49,7 +61,7 @@ public class NeteaseArtistHotlistSearchResult extends SearchResult<Song> {
 
     @Override
     public int length() {
-        return songs.size();
+        return -1;
     }
 
     @Override

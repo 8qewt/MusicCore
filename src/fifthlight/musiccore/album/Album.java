@@ -29,7 +29,7 @@ import java.util.List;
  * 专辑
  * @author fifth_light
  */
-public abstract class Album implements Serializable, IdentifierAble {
+public abstract class Album extends IdentifierAble implements Serializable {
     /**
      * 获取专辑的名称。
      * @return 专辑的名称。
@@ -44,11 +44,12 @@ public abstract class Album implements Serializable, IdentifierAble {
     public abstract List<Artist> getArtists() throws IOException;
     
     /**
-     * 获取专辑的副名称列表。
-     * @return 专辑的副名称列表，如果当前网站不支持则返回null。
+     * 获取专辑的标题。<br>
+     * <em>可能会产生网络请求和线程堵塞。</em>
+     * @return 专辑的标题。
      * @throws IOException 网络错误时抛出此异常。
      */
-    public abstract List<String> getSubNames() throws IOException;
+    public abstract String getTitle() throws IOException;
     
     
     /**

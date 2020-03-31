@@ -40,7 +40,7 @@ public class QQArtistHotlistSearchResult extends SearchResult<Song>{
     
     @Override
     public List<Song> getItems(int page) throws IOException {
-        if(page > 0 && page < pageLength()) {
+        if(page >= 0 && page < pageLength()) {
             JSONObject o;
             if(page == 0){
                 o = firstObj;

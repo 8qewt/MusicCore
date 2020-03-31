@@ -34,7 +34,7 @@ import java.util.Set;
  *
  * @author fifth_light
  */
-public abstract class Song implements Serializable, IdentifierAble {
+public abstract class Song extends IdentifierAble implements Serializable {
 
     /**
      * 获取歌曲的名称。

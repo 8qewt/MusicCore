@@ -21,6 +21,7 @@ import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.HotlistAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
+import fifthlight.musiccore.interfaces.MIDGetAble;
 import fifthlight.musiccore.internal.picture.qq.QQArtistPicture;
 import fifthlight.musiccore.internal.searchresult.qq.QQArtistHotlistSearchResult;
 import fifthlight.musiccore.search.searchresult.SearchResult;
@@ -36,15 +37,17 @@ import org.dom4j.Document;
  *
  * @author fifth_light
  */
-public class QQArtist extends Artist implements HotlistAble<Song> {
+public class QQArtist extends Artist implements HotlistAble<Song>, MIDGetAble {
 
     private JSONObject shortObj;
+    private JSONObject albumObj;
     private Document infoObj;
     private long id;
     private String mid;
 
     public enum dataType {
-        FROM_PLAY
+        FROM_PLAY,
+        FROM_ALBUM
     }
     public QQArtist(Object o, dataType type) {
         switch (type) {
@@ -53,8 +56,11 @@ public class QQArtist extends Artist implements HotlistAble<Song> {
                 id = shortObj.getLong("id");
                 mid = shortObj.getString("mid");
                 break;
-            default:
-                throw new RuntimeException();
+            case FROM_ALBUM:
+                albumObj = (JSONObject) o;
+                id = albumObj.getLongValue("singerid");
+                mid = albumObj.getString("singermid");
+                break;
         }
     }
 
@@ -62,7 +68,10 @@ public class QQArtist extends Artist implements HotlistAble<Song> {
     public String getName() {
         if (shortObj != null) {
             return shortObj.getString("name");
+        } else if(albumObj != null){
+            return albumObj.getString("singername");
         } else {
+            // TODO 获取歌手信息
             return null;
         }
     }
@@ -72,7 +81,8 @@ public class QQArtist extends Artist implements HotlistAble<Song> {
         if (shortObj != null) {
             return shortObj.getString("title");
         } else {
-            return null;
+            // TODO 获取歌手信息
+            return getName();
         }
     }
 
@@ -118,6 +128,7 @@ public class QQArtist extends Artist implements HotlistAble<Song> {
         return String.valueOf(id);
     }
 
+    @Override
     public String getMID() {
         return mid;
     }

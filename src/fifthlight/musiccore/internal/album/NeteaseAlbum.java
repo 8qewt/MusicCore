@@ -16,7 +16,6 @@
  */
 package fifthlight.musiccore.internal.album;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
@@ -66,16 +65,20 @@ public class NeteaseAlbum extends Album {
     }
 
     @Override
-    public List<String> getSubNames() throws IOException {
+    public String getTitle() throws IOException {
         if (fullObj == null) {
             getLongObj();
         }
-        JSONArray ja = fullObj.getJSONObject("album").getJSONArray("alias");
-        List<String> l = new ArrayList<String>();
-        for(Object o : ja){
-            l.add((String) o);
+        String result = this.getName();
+        if (!fullObj.getJSONObject("album").getJSONArray("alias").isEmpty()) {
+            result += "（";
+            for (Object name : fullObj.getJSONObject("album").getJSONArray("alias")) {
+                result += name + "、";
+            }
+            result = result.substring(0, result.length() - 1);
+            result += "）";
         }
-        return l;
+        return result;
     }
 
     @Override

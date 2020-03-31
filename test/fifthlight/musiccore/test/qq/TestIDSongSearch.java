@@ -75,13 +75,13 @@ public class TestIDSongSearch {
                 }
             }
         }
-        /*if (s.getAlbum() != null) {
+        if (s.getAlbum() != null) {
             if (s.getAlbum().getPictures() != null) {
                 for (Picture p : s.getAlbum().getPictures()) {
                     System.out.println("Album Picture: " + p.getURL(0, 0));
                 }
             }
-        }*/
+        }
         System.out.println("----------------");
     }
 }

@@ -39,7 +39,7 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
     private JSONObject shortObj;
     private JSONObject fullObj;
     private JSONObject halfFullObj;
-    private Long id;
+    private long id;
 
     public NeteaseArtist(JSONObject o, int type) {
         switch (type) {
@@ -110,10 +110,7 @@ public class NeteaseArtist extends Artist implements HotlistAble<Song> {
 
     @Override
     public SearchResult<Song> getHotList() throws IOException {
-        if (fullObj == null) {
-            getFullObj();
-        }
-        return new NeteaseArtistHotlistSearchResult(fullObj);
+        return new NeteaseArtistHotlistSearchResult(id);
     }
 
     @Override

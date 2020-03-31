@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 liuyujie
+ * Copyright (C) 2020 fifth_light
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,35 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.internal.searchresult;
+package fifthlight.musiccore.internal.picture.qq;
 
-import fifthlight.musiccore.search.searchresult.SearchResult;
+import fifthlight.musiccore.Picture;
 import java.io.IOException;
-import java.util.List;
+import java.net.URL;
 
 /**
  *
  * @author liuyujie
- * @param <T>
  */
-public class EmptySearchResult<T> extends SearchResult<T> {
-
-    public EmptySearchResult() {
-    }
-
-    @Override
-    public List<T> getItems(int page) throws IOException {
-        return null;
-    }
-
-    @Override
-    public int length() {
-        return 0;
-    }
-
-    @Override
-    public int pageLength() {
-        return 0;
-    }
+public class QQAlbumPicture extends Picture {
+    private final String mid;
     
+    public QQAlbumPicture(String mid){
+        this.mid = mid;
+    }
+
+    @Override
+    public URL getURL(int xRes, int yRes) throws IOException {
+        return new URL("https://y.gtimg.cn/music/photo_new/T002R300x300M00000" + mid + ".jpg");
+    }
+
+    @Override
+    public String getID() {
+        return mid;
+    }
 }

@@ -21,6 +21,8 @@ import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildQualityException;
+import fifthlight.musiccore.interfaces.MIDGetAble;
+import fifthlight.musiccore.internal.album.QQAlbum;
 import fifthlight.musiccore.internal.artist.QQArtist;
 import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.song.lyric.Lyric;
@@ -28,15 +30,17 @@ import fifthlight.musiccore.song.songquality.SongQuality;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
  * QQ音乐中的一首歌曲
+ *
  * @author fifth_light
  */
-public class QQSong extends Song {
-    
+public class QQSong extends Song implements MIDGetAble {
+
     private final JSONObject obj;
     private Long ID;
     private String MID;
@@ -44,12 +48,19 @@ public class QQSong extends Song {
 
     public enum dataType {
         FROM_PLAY,
-        FROM_ARTIST_HOTLIST
+        FROM_ARTIST_HOTLIST,
+        FROM_ALBUM
     }
-    
+
+    /**
+     * 创建一个QQSong。 请不要使用这个方法创建QQSong！ 正确的方法是使用MusicFactory创建。
+     *
+     * @param data 初始化QQSong的数据
+     * @param type 初始化数据的类型
+     */
     public QQSong(Object data, dataType type) {
         this.dataType = type;
-        switch(type){
+        switch (type) {
             case FROM_PLAY:
                 JSONObject jsonData = (JSONObject) data;
                 obj = jsonData.getJSONArray("data").getJSONObject(0);
@@ -57,30 +68,37 @@ public class QQSong extends Song {
                 MID = obj.getString("mid");
                 break;
                 
+            case FROM_ALBUM:
+                obj = (JSONObject) data;
+                ID = Long.valueOf(obj.getString("id"));
+                MID = obj.getString("mid");
+                break;
+
             case FROM_ARTIST_HOTLIST:
                 jsonData = (JSONObject) data;
                 obj = jsonData.getJSONObject("musicData");
                 ID = obj.getLong("id");
                 MID = obj.getString("mid");
                 break;
-            
+
             default:
                 throw new RuntimeException();
         }
     }
-    
+
     @Override
     public String getID() {
         return String.valueOf(ID);
     }
-    
+
+    @Override
     public String getMID() {
         return MID;
     }
-    
+
     @Override
     public String getName() {
-        if(dataType == dataType.FROM_PLAY){
+        if (dataType == dataType.FROM_PLAY) {
             return obj.getString("name");
         } else {
             return obj.getString("name");
@@ -89,7 +107,7 @@ public class QQSong extends Song {
 
     @Override
     public String getTitle() {
-        if(!"".equals(obj.getString("subtitle"))){
+        if (!"".equals(obj.getString("subtitle"))) {
             return obj.getString("title") + " (" + obj.getString("subtitle") + ")";
         }
         return obj.getString("title");
@@ -97,9 +115,9 @@ public class QQSong extends Song {
 
     @Override
     public List<Artist> getArtists() {
-        if(obj != null){
+        if (obj != null) {
             ArrayList<Artist> result = new ArrayList<Artist>();
-            for(Object o : obj.getJSONArray("singer")){
+            for (Object o : obj.getJSONArray("singer")) {
                 result.add(new QQArtist(o, QQArtist.dataType.FROM_PLAY));
             }
             return result;
@@ -110,12 +128,12 @@ public class QQSong extends Song {
 
     @Override
     public Album getAlbum() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new QQAlbum(obj.getJSONObject("album"), QQAlbum.DataType.FROM_PLAY);
     }
 
     @Override
     public Set<SongQuality> getAvailableQualities() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new HashSet<SongQuality>();
     }
 
     @Override
@@ -125,17 +143,17 @@ public class QQSong extends Song {
 
     @Override
     public Lyric getLyric() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public Lyric getTranslatedLyric() throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public URL getURL(SongQuality quality) throws InvaildQualityException, IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new InvaildQualityException();
     }
-    
+
 }

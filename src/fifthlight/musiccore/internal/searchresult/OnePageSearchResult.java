@@ -1,5 +1,11 @@
+package fifthlight.musiccore.internal.searchresult;
+
+import fifthlight.musiccore.search.searchresult.SearchResult;
+import java.io.IOException;
+import java.util.List;
+
 /*
- * Copyright (C) 2020 liuyujie
+ * Copyright (C) 2020 fifth_light
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,35 +20,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.internal.searchresult;
-
-import fifthlight.musiccore.search.searchresult.SearchResult;
-import java.io.IOException;
-import java.util.List;
 
 /**
  *
  * @author liuyujie
- * @param <T>
  */
-public class EmptySearchResult<T> extends SearchResult<T> {
+public class OnePageSearchResult<T> extends SearchResult<T> {
 
-    public EmptySearchResult() {
+    private final List<T> data;
+    
+    public OnePageSearchResult(List<T> data){
+        this.data = data;
     }
-
+    
     @Override
     public List<T> getItems(int page) throws IOException {
+        if(page == 0){
+            return data;
+        }
         return null;
     }
 
     @Override
     public int length() {
-        return 0;
+        return data.size();
     }
 
     @Override
     public int pageLength() {
-        return 0;
+        return 1;
     }
     
 }

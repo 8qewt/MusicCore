@@ -20,7 +20,6 @@ import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
-import fifthlight.musiccore.song.Song;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -56,16 +55,13 @@ public class TestIDAlbumSearch {
     private void vaildAlbum(Album a) throws IOException {
         assertTrue("ゆりしゅらしゅしゅしゅ / おひるねゆにばーす".equals(a.getName()) || "YURUYURI♪♪ 2nd.Series BESTALBUM ゆるゆりずむ♪2".equals(a.getName()));
         if("3271289".equals(a.getID())){
-            List<String> subNames = a.getSubNames();
-            assertEquals(subNames.size(), 1);
-            assertEquals(subNames.get(0), "TV动画《摇曳百合 夏日时光》主题曲专辑");
+            assertEquals(a.getTitle(), "ゆりしゅらしゅしゅしゅ / おひるねゆにばーす（TV动画《摇曳百合 夏日时光》主题曲专辑）");
         } else if("2875038".equals(a.getID())){
-            List<String> subNames = a.getSubNames();
-            assertEquals(subNames.size(), 0);
+            assertEquals(a.getTitle(), a.getName());
         } 
         System.out.println("---Vaild Album---");
         System.out.println("name: " + a.getName());
-        System.out.println("subNames: " + String.join(",", a.getSubNames()));
+        System.out.println("title: " + a.getTitle());
         System.out.println("----------------");
     }
 }
