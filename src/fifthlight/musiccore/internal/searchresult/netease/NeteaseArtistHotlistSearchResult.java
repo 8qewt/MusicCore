@@ -35,11 +35,12 @@ public class NeteaseArtistHotlistSearchResult extends SearchResult<Song> {
     private final long artistID;
     private final ArrayList<Song> songs = new ArrayList<Song>();
 
-    public NeteaseArtistHotlistSearchResult(long artistID) {
+    public NeteaseArtistHotlistSearchResult(long artistID) throws IOException {
         this.artistID = artistID;
+        fetchSongs();
     }
     
-    private void fetchSongs() throws IOException{
+    private void fetchSongs() throws IOException {
         if(songs.isEmpty()){
             JSONObject o = NeteaseHTTPUtil.getJSONLinuxForward("{\"method\":\"GET\",\"params\":{\"id\":" + artistID
                 + ",\"ext\":true,\"top\":" + allSize + "},\"url\":\"https://music.163.com/api/v1/artist/" + artistID + "\"}");
@@ -51,7 +52,6 @@ public class NeteaseArtistHotlistSearchResult extends SearchResult<Song> {
 
     @Override
     public List<Song> getItems(int page) throws IOException {
-        fetchSongs();
         if (page == 0) {
             return songs;
         } else {

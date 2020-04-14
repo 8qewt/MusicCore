@@ -17,6 +17,7 @@
 package fifthlight.musiccore.test.netease;
 
 import fifthlight.musiccore.album.Album;
+import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
@@ -56,8 +57,12 @@ public class TestNameAlbumSearch {
         System.out.println("id: " + a.getID());
         System.out.println("name: " + a.getName());
         System.out.println("title: " + a.getTitle());
+        System.out.println("artists: ");
+        for (Artist ar : a.getArtists()) {
+            System.out.println("    name:" + ar.getName());
+            System.out.println("    id:" + ar.getID());
+        }
         System.out.println("songs: ");
-        int i = 0;
         for (Song s : a.getSongs().getItems()) {
             System.out.println("    name:" + s.getName());
             System.out.println("    id:" + s.getID());

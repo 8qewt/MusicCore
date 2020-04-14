@@ -116,9 +116,7 @@ public class NeteaseAlbum extends Album {
             getLongObj();
         }
         List<Artist> result = new ArrayList<Artist>();
-        for(Object obj : fullObj.getJSONObject("album").getJSONArray("ar")){
-            result.add(new NeteaseArtist((JSONObject) obj, 0));
-        }
+        result.add(new NeteaseArtist(fullObj.getJSONObject("album").getJSONObject("artist"), 2));
         return result;
     }
 
