@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore.artist;
 
+import fifthlight.musiccore.DescriptionAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.interfaces.IdentifierAble;
 import java.io.IOException;
@@ -26,7 +27,7 @@ import java.util.List;
  * 艺术家
  * @author fifth_light
  */
-public abstract class Artist extends IdentifierAble implements Serializable {
+public abstract class Artist extends IdentifierAble implements Serializable, DescriptionAble {
     /**
      * 获取艺术家的名称。
      * @return 艺术家的名称。
@@ -40,14 +41,6 @@ public abstract class Artist extends IdentifierAble implements Serializable {
      * @throws IOException 网络错误时抛出此异常。
      */
     public abstract String getTitle() throws IOException;
-    
-    /**
-     * 获取艺术家的信息。<br>
-     * <em>可能会产生网络请求和线程堵塞。</em>
-     * @return 艺术家的信息，没有则返回null。
-     * @throws IOException 网络错误时抛出此异常。
-     */
-    public abstract String getDescription() throws IOException;
     
     /**
      * 获取艺术家的图片集合。<br>

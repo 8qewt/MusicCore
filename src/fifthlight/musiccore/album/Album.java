@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore.album;
 
+import fifthlight.musiccore.DescriptionAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.interfaces.IdentifierAble;
@@ -29,7 +30,7 @@ import java.util.List;
  * 专辑
  * @author fifth_light
  */
-public abstract class Album extends IdentifierAble implements Serializable {
+public abstract class Album extends IdentifierAble implements Serializable, DescriptionAble {
     /**
      * 获取专辑的名称。
      * @return 专辑的名称。
@@ -50,14 +51,6 @@ public abstract class Album extends IdentifierAble implements Serializable {
      * @throws IOException 网络错误时抛出此异常。
      */
     public abstract String getTitle() throws IOException;
-    
-    
-    /**
-     * 获取专辑的说明。
-     * @return 专辑的说明，如果当前网站不支持则返回null。
-     * @throws IOException 网络错误时抛出此异常。
-     */
-    public abstract String getDescription() throws IOException;
     
     /**
      * 获取专辑的图片集合。<br>
