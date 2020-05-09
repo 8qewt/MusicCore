@@ -16,6 +16,7 @@
  */
 package fifthlight.musiccore.util.qq;
 
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.exception.ParseException;
 import static fifthlight.musiccore.util.UserAgentUtil.randomUserAgent;
@@ -52,7 +53,11 @@ public class QQHTTPUtil {
             result += line;
         }
         br.close();
-        return JSONObject.parseObject(result);
+        try{
+            return JSONObject.parseObject(result);
+        } catch (JSONException ex) {
+            throw new ParseException(ex);
+        }
     }
     
     public static Document XMLHTTPRequest(String url) throws MalformedURLException, IOException {
@@ -65,7 +70,7 @@ public class QQHTTPUtil {
         try {
             return reader.read(conn.getInputStream());
         } catch (DocumentException ex) {
-            throw new ParseException();
+            throw new ParseException(ex);
         }
     }
 }

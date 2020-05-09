@@ -86,9 +86,11 @@ public class NeteaseHTTPUtil {
             if(jo.containsKey("code")){
                 if(jo.getInteger("code") == 200){
                     return jo;
+                } else {
+                    throw new ParseException("Returl code is " + jo.getInteger("code"));
                 }
             }
-            throw new ParseException();
+            throw new ParseException("Returl code not found");
         } catch (MalformedURLException ex) {
             throw new RuntimeException(ex);
         }
