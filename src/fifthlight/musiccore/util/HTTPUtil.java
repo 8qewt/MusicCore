@@ -19,10 +19,12 @@ package fifthlight.musiccore.util;
 import static fifthlight.musiccore.util.UserAgentUtil.randomUserAgent;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 
 /**
  * HTTP工具类
@@ -34,17 +36,29 @@ public class HTTPUtil {
     private static final String userAgent = randomUserAgent();
 
     public static String HTTPRequest(String url) throws MalformedURLException, IOException {
+        return HTTPRequest(url, Charset.forName("UTF-8"));
+    }
+
+    public static String HTTPRequest(String url, Charset charset) throws MalformedURLException, IOException {
         URLConnection conn = new URL(url).openConnection();
         conn.addRequestProperty("User-Agent", userAgent);
         conn.connect();
-        String result = "";
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream()));
-        String line;
-        while ((line = br.readLine()) != null) {
-            result += line;
+        return readInputStream(conn.getInputStream(), charset);
+    }
+    
+    public static String readInputStream(InputStream stream) throws IOException {
+        return readInputStream(stream, Charset.forName("UTF-8"));
+    }
+    
+
+    public static String readInputStream(InputStream stream, Charset charset) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        InputStreamReader reader = new InputStreamReader(stream, charset);
+        char[] cache = new char[1024];
+        int len;
+        while ((len = reader.read(cache)) != -1) {
+            builder.append(cache, 0, len);
         }
-        br.close();
-        return result;
+        return builder.toString();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 liuyujie
+ * Copyright (C) 2020 fifth_light
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,17 +16,21 @@
  */
 package fifthlight.musiccore.song.lyric;
 
-import java.io.Serializable;
-
 /**
- * 歌词。<br>
- * 这个类所表示的歌词没有时间轴。
+ * 最基本的歌词
  * @author liuyujie
  */
-public abstract class Lyric implements Serializable {
-    /**
-     * 获取歌词内容
-     * @return 歌词文本
-     */
-    public abstract String getLyric();
+public class TextLyric extends Lyric {
+    
+    private final String lyric;
+    
+    public TextLyric(String lyric) {
+        this.lyric = lyric;
+    }
+
+    @Override
+    public String getLyric() {
+        return lyric;
+    }
+    
 }

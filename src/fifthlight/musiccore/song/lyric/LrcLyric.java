@@ -31,12 +31,14 @@ import java.util.regex.Pattern;
 public class LrcLyric extends TimeLineLyric implements Serializable, LyricMetadata {
 
     private final Set<TimeLine> timeLineSet;
-    private final Pattern metaDataRegex = Pattern.compile("^\\[([a-z]+):(.*)\\]$");
-    private final Pattern textlineRegex = Pattern.compile("^((\\[([0-9]{2}:[0-9]{2}.([0-9]{1,3}){0,1})\\])+)(.*)$");
-    private final Pattern timeRegex = Pattern.compile("\\[([0-9]{2}):([0-9]{2}).([0-9]{1,3})\\]");
+    private static final Pattern metaDataRegex = Pattern.compile("^\\[([a-z]+):(.*)\\]$");
+    private static final Pattern textlineRegex = Pattern.compile("^((\\[([0-9]{2}:[0-9]{2}.([0-9]{1,3}){0,1})\\])*)(.*)$");
+    private static final Pattern timeRegex = Pattern.compile("\\[([0-9]{2}):([0-9]{2}).([0-9]{1,3})\\]");
+    private static final Pattern isLRCRegex = Pattern.compile("^\\[.*\\]", Pattern.MULTILINE);
     private final HashMap<String, String> metaData = new HashMap<String, String>();
 
     public LrcLyric(String source) {
+        double lastTime = 0;
         timeLineSet = new HashSet<TimeLine>();
         for (String line : source.split("\n")) {
             Matcher m = metaDataRegex.matcher(line);
@@ -47,10 +49,13 @@ public class LrcLyric extends TimeLineLyric implements Serializable, LyricMetada
                 if (m.find()) {
                     Matcher timeMatcher = timeRegex.matcher(m.group(1));
                     while (timeMatcher.find()) {
-                        timeLineSet.add(new LrcTimeline(Integer.valueOf(timeMatcher.group(1)) * 60 + 
+                        lastTime = Integer.valueOf(timeMatcher.group(1)) * 60 + 
                                 Integer.valueOf(timeMatcher.group(2)) + 
-                                Integer.valueOf(timeMatcher.group(3)) * 0.01d, m.group(5)));
+                                Integer.valueOf(timeMatcher.group(3)) * 0.01d;
+                        timeLineSet.add(new LrcTimeline(lastTime, m.group(5)));
                     }
+                } else {
+                    timeLineSet.add(new LrcTimeline(lastTime, m.group(5)));
                 }
             }
         }
@@ -106,6 +111,10 @@ public class LrcLyric extends TimeLineLyric implements Serializable, LyricMetada
     @Override
     public String getAuthor() {
         return metaData.get("by");
+    }
+    
+    public static boolean isLRC(String source){
+        return isLRCRegex.matcher(source).find();
     }
 
 }
