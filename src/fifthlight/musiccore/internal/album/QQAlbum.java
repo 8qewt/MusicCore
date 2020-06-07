@@ -37,13 +37,13 @@ import java.util.List;
  */
 public class QQAlbum extends Album implements MIDGetAble {
 
-    private JSONObject playObj;
+    private JSONObject shortObj;
     private JSONObject infoObj;
     private String MID;
     private long ID;
 
     public enum DataType {
-        FROM_PLAY,
+        SHORT,
         ID
     }
 
@@ -60,10 +60,10 @@ public class QQAlbum extends Album implements MIDGetAble {
 
     public QQAlbum(Object o, DataType type) {
         switch (type) {
-            case FROM_PLAY:
-                playObj = (JSONObject) o;
-                MID = playObj.getString("mid");
-                ID = playObj.getLongValue("id");
+            case SHORT:
+                shortObj = (JSONObject) o;
+                MID = shortObj.getString("mid");
+                ID = shortObj.getLongValue("id");
                 break;
             case ID:
                 infoObj = (JSONObject) o;
@@ -73,8 +73,8 @@ public class QQAlbum extends Album implements MIDGetAble {
 
     @Override
     public String getName() {
-        if (playObj != null) {
-            return playObj.getString("name");
+        if (shortObj != null) {
+            return shortObj.getString("name");
         } else if (infoObj == null) {
             return infoObj.getString("name");
         }
@@ -83,11 +83,11 @@ public class QQAlbum extends Album implements MIDGetAble {
 
     @Override
     public String getTitle() throws IOException {
-        if (playObj != null) {
-            if (!"".equals(playObj.getString("subtitle"))) {
-                return playObj.getString("name") + "（" + playObj.getString("subtitle") + "）";
+        if (shortObj != null) {
+            if (!"".equals(shortObj.getString("subtitle"))) {
+                return shortObj.getString("name") + "（" + shortObj.getString("subtitle") + "）";
             } else {
-                return playObj.getString("name");
+                return shortObj.getString("name");
             }
         } else {
             return null;
@@ -115,8 +115,8 @@ public class QQAlbum extends Album implements MIDGetAble {
     @Override
     public List<Picture> getPictures() throws IOException {
         List<Picture> result = new ArrayList<Picture>();
-        if(!"".equals(playObj.getString("pmid"))){
-            result.add(new QQAlbumPicture(playObj.getString("pmid")));
+        if(!"".equals(shortObj.getString("pmid"))){
+            result.add(new QQAlbumPicture(shortObj.getString("pmid")));
         }
         return result;
     }

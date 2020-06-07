@@ -20,9 +20,11 @@ import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildSearchException;
 import fifthlight.musiccore.internal.searchresult.qq.QQIDSongSearchResult;
+import fifthlight.musiccore.internal.searchresult.qq.QQNameSongSearchResult;
 import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.MIDSearch;
+import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.Search;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
@@ -45,6 +47,8 @@ public class QQMusicFactory extends MusicFactory {
             return new QQIDSongSearchResult(((IDSearch) search).getIDs(), false);
         } else if (search instanceof MIDSearch) {
             return new QQIDSongSearchResult(((MIDSearch) search).getMIDs(), true);
+        } else if (search instanceof NameSearch) {
+            return new QQNameSongSearchResult((NameSearch) search);
         } else {
             throw new InvaildSearchException();
         }

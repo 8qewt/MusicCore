@@ -1,21 +1,3 @@
-package fifthlight.musiccore.factory;
-
-import com.alibaba.fastjson.JSONObject;
-import fifthlight.musiccore.album.Album;
-import fifthlight.musiccore.artist.Artist;
-import fifthlight.musiccore.exception.InvaildSearchException;
-import fifthlight.musiccore.factory.MusicFactory;
-import fifthlight.musiccore.internal.searchresult.OnePageSearchResult;
-import fifthlight.musiccore.internal.song.BilibiliSong;
-import fifthlight.musiccore.playlist.Playlist;
-import fifthlight.musiccore.search.IDSearch;
-import fifthlight.musiccore.search.Search;
-import fifthlight.musiccore.search.searchresult.SearchResult;
-import fifthlight.musiccore.song.Song;
-import fifthlight.musiccore.util.bilibili.BilibiliHTTPUtil;
-import java.io.IOException;
-import java.util.ArrayList;
-
 /*
  * Copyright (C) 2020 fifth_light
  *
@@ -31,7 +13,22 @@ import java.util.ArrayList;
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+ */package fifthlight.musiccore.factory;
+
+import com.alibaba.fastjson.JSONObject;
+import fifthlight.musiccore.album.Album;
+import fifthlight.musiccore.artist.Artist;
+import fifthlight.musiccore.exception.InvaildSearchException;
+import fifthlight.musiccore.internal.searchresult.OnePageSearchResult;
+import fifthlight.musiccore.internal.song.BilibiliSong;
+import fifthlight.musiccore.playlist.Playlist;
+import fifthlight.musiccore.search.IDSearch;
+import fifthlight.musiccore.search.Search;
+import fifthlight.musiccore.search.searchresult.SearchResult;
+import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.bilibili.BilibiliHTTPUtil;
+import java.io.IOException;
+import java.util.ArrayList;
 /**
  *
  * @author liuyujie

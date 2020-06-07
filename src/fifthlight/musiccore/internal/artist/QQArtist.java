@@ -47,11 +47,13 @@ public class QQArtist extends Artist implements HotlistAble<Song>, MIDGetAble {
 
     public enum dataType {
         FROM_PLAY,
+        FROM_SEARCH,
         FROM_ALBUM
     }
     public QQArtist(Object o, dataType type) {
         switch (type) {
             case FROM_PLAY:
+            case FROM_SEARCH:
                 shortObj = (JSONObject) o;
                 id = shortObj.getLong("id");
                 mid = shortObj.getString("mid");

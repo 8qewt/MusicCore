@@ -49,7 +49,8 @@ public class QQSong extends Song implements MIDGetAble {
     public enum dataType {
         FROM_PLAY,
         FROM_ARTIST_HOTLIST,
-        FROM_ALBUM
+        FROM_ALBUM,
+        FROM_SEARCH
     }
 
     /**
@@ -59,15 +60,15 @@ public class QQSong extends Song implements MIDGetAble {
      * @param type 初始化数据的类型
      */
     public QQSong(Object data, dataType type) {
-        this.dataType = type;
+        JSONObject jsonData;
         switch (type) {
             case FROM_PLAY:
-                JSONObject jsonData = (JSONObject) data;
+                jsonData = (JSONObject) data;
                 obj = jsonData.getJSONArray("data").getJSONObject(0);
                 ID = Long.valueOf(obj.getString("id"));
                 MID = obj.getString("mid");
                 break;
-                
+
             case FROM_ALBUM:
                 obj = (JSONObject) data;
                 ID = Long.valueOf(obj.getString("id"));
@@ -78,6 +79,12 @@ public class QQSong extends Song implements MIDGetAble {
                 jsonData = (JSONObject) data;
                 obj = jsonData.getJSONObject("musicData");
                 ID = obj.getLong("id");
+                MID = obj.getString("mid");
+                break;
+
+            case FROM_SEARCH:
+                obj = (JSONObject) data;
+                ID = obj.getLongValue("id");
                 MID = obj.getString("mid");
                 break;
 
@@ -98,11 +105,7 @@ public class QQSong extends Song implements MIDGetAble {
 
     @Override
     public String getName() {
-        if (dataType == dataType.FROM_PLAY) {
-            return obj.getString("name");
-        } else {
-            return obj.getString("name");
-        }
+        return obj.getString("name");
     }
 
     @Override
@@ -118,7 +121,7 @@ public class QQSong extends Song implements MIDGetAble {
         if (obj != null) {
             ArrayList<Artist> result = new ArrayList<Artist>();
             for (Object o : obj.getJSONArray("singer")) {
-                result.add(new QQArtist(o, QQArtist.dataType.FROM_PLAY));
+                result.add(new QQArtist(o, QQArtist.dataType.FROM_SEARCH));
             }
             return result;
         } else {
@@ -128,7 +131,7 @@ public class QQSong extends Song implements MIDGetAble {
 
     @Override
     public Album getAlbum() {
-        return new QQAlbum(obj.getJSONObject("album"), QQAlbum.DataType.FROM_PLAY);
+        return new QQAlbum(obj.getJSONObject("album"), QQAlbum.DataType.SHORT);
     }
 
     @Override
