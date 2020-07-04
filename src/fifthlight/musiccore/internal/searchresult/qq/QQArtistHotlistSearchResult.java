@@ -29,28 +29,31 @@ import java.util.List;
  *
  * @author liuyujie
  */
-public class QQArtistHotlistSearchResult extends SearchResult<Song>{
+public class QQArtistHotlistSearchResult extends SearchResult<Song> {
+
     private final JSONObject firstObj;
     private final long id;
-    
-    public QQArtistHotlistSearchResult(long id, JSONObject o){
+
+    public QQArtistHotlistSearchResult(long id, JSONObject o) {
         this.id = id;
         this.firstObj = o;
     }
-    
+
     @Override
     public List<Song> getItems(int page) throws IOException {
-        if(page >= 0 && page < pageLength()) {
+        if (page >= 0 && page < pageLength()) {
             JSONObject o;
-            if(page == 0){
+            if (page == 0) {
                 o = firstObj;
             } else {
-                o = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?singerid=" + id +
-                        "begin=0&num=30&order=listen&newsong=1&platform=mac");
+                o = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg?singerid=" + id
+                        + "begin=0&num=30&order=listen&newsong=1&platform=mac");
             }
             ArrayList<Song> result = new ArrayList<Song>();
-            for(Object dataObj : o.getJSONObject("data").getJSONArray("list")){
-                result.add(new QQSong(dataObj, QQSong.dataType.FROM_PLAY));
+            for (Object dataObj : o.getJSONObject("data").getJSONArray("list")) {
+                if (dataObj != null) {
+                    result.add(new QQSong(dataObj, QQSong.dataType.FROM_PLAY));
+                }
             }
             return result;
         } else {
@@ -67,5 +70,5 @@ public class QQArtistHotlistSearchResult extends SearchResult<Song>{
     public int pageLength() {
         return (int) Math.ceil(firstObj.getJSONObject("data").getFloat("total") / 30);
     }
-    
+
 }

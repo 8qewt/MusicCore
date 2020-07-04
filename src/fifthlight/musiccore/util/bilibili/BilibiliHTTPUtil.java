@@ -16,21 +16,16 @@
  */
 package fifthlight.musiccore.util.bilibili;
 
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.exception.ParseException;
-import fifthlight.musiccore.util.HTTPUtil;
+import static fifthlight.musiccore.util.HTTPUtil.readInputStream;
+import fifthlight.musiccore.util.MusicCoreConfig;
 import static fifthlight.musiccore.util.UserAgentUtil.randomUserAgent;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.ZipException;
 
 /**
  * Bilibili的HTTP访问工具
@@ -39,8 +34,12 @@ import java.util.zip.ZipException;
  */
 public class BilibiliHTTPUtil {
 
-    private static String userAgent = "MusicCore/0.0.1 (812558777@qq.com)";
+    private static String userAgent = "MusicCore/" + MusicCoreConfig.VERSION + " (812558777@qq.com)";
     private static final String cookie = randomCookie();
+
+    public static void setDefaultUA() {
+        userAgent = "MusicCore/" + MusicCoreConfig.VERSION + " (812558777@qq.com)";
+    }
 
     public static void setUA(String userAgent) {
         BilibiliHTTPUtil.userAgent = userAgent;
@@ -59,31 +58,18 @@ public class BilibiliHTTPUtil {
         conn.setDoInput(true);
         conn.connect();
 
-        ByteArrayOutputStream baStream = new ByteArrayOutputStream();
-        InputStream inputStream = conn.getInputStream();
-        byte[] cache = new byte[1024];
-        int len;
-        while ((len = inputStream.read(cache)) != -1) {
-            baStream.write(cache, 0, len);
+        JSONObject jo;
+        if ("gzip".equals(conn.getContentEncoding())) {
+            jo = JSONObject.parseObject(readInputStream(conn.getInputStream(), true));
+        } else {
+            jo = JSONObject.parseObject(readInputStream(conn.getInputStream(), false));
         }
 
-        JSONObject jo;
-        try {
-            try {
-                jo = JSONObject.parseObject(HTTPUtil.readInputStream(
-                        new GZIPInputStream(new ByteArrayInputStream(baStream.toByteArray()))));
-            } catch (IOException ex) {
-                jo = JSONObject.parseObject(HTTPUtil.readInputStream(
-                        new ByteArrayInputStream(baStream.toByteArray())));
-            }
-        } catch (JSONException ex) {
-            throw new ParseException(ex);
-        }
-        if(jo.containsKey("msg")){
+        if (jo.containsKey("msg")) {
             if (!jo.getString("msg").equals("success")) {
                 throw new ParseException("Message is not success");
             }
-        } else if(jo.containsKey("message")){
+        } else if (jo.containsKey("message")) {
             if (!jo.getString("message").equals("0")) {
                 throw new ParseException("Message is not 0");
             }

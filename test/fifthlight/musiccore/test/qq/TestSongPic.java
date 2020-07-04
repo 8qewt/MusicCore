@@ -14,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.test.netease;
+package fifthlight.musiccore.test.qq;
 
-import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.Picture;
-import fifthlight.musiccore.search.IDSearch;
+import fifthlight.musiccore.factory.QQMusicFactory;
+import fifthlight.musiccore.search.MIDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
 import java.io.IOException;
@@ -33,8 +33,8 @@ import org.junit.Test;
 public class TestSongPic {
     @Test
     public void testSongPic() throws IOException {
-        IDSearch s = new IDSearch("404543013");
-        SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
+        MIDSearch s = new MIDSearch("0045yG4H4P0rMz");
+        SearchResult<Song> sr = QQMusicFactory.getInstance().getSongs(s);
         List<Picture> pics = sr.getItems(0).get(0).getAlbum().getPictures();
         assertEquals(pics.size(), 1);
         System.out.println("---Vaild Album Cover---");

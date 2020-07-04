@@ -16,13 +16,11 @@
  */
 package fifthlight.musiccore.util.qq;
 
-import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import fifthlight.musiccore.exception.ParseException;
+import fifthlight.musiccore.util.HTTPUtil;
 import static fifthlight.musiccore.util.UserAgentUtil.randomUserAgent;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -45,18 +43,10 @@ public class QQHTTPUtil {
         conn.addRequestProperty("Cookie", "qqmusic_uin=12345678; qqmusic_key=12345678; qqmusic_fromtag=30; ts_last=y.qq.com/portal/player.html;");
         conn.addRequestProperty("Referer", "https://y.qq.com/portal/player.html");
         conn.connect();
-        String result = "";
-        BufferedReader br = new BufferedReader(new InputStreamReader(
-                    conn.getInputStream()));
-        String line;
-        while ((line = br.readLine()) != null) {
-            result += line;
-        }
-        br.close();
-        try{
-            return JSONObject.parseObject(result);
-        } catch (JSONException ex) {
-            throw new ParseException(ex);
+        if ("gzip".equals(conn.getContentEncoding())) {
+            return JSONObject.parseObject(HTTPUtil.readInputStream(conn.getInputStream(), true));
+        } else {
+            return JSONObject.parseObject(HTTPUtil.readInputStream(conn.getInputStream(), false));
         }
     }
     

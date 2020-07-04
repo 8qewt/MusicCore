@@ -17,6 +17,7 @@
 package fifthlight.musiccore.song.lyric;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +35,7 @@ public abstract class TimeLineLyric extends Lyric {
     
     public List<TimeLine> getTimeLinesList(){
         List<TimeLine> l = new ArrayList(this.getTimeLinesSet());
-        l.sort(new Comparator<TimeLine>(){
+        Collections.sort(l, new Comparator<TimeLine>(){
             @Override
             public int compare(TimeLine o1, TimeLine o2) {
                 return (int) (o1.getTime() - o2.getTime());

@@ -18,10 +18,8 @@ package fifthlight.musiccore.test.qq;
 
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
-import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.factory.QQMusicFactory;
 import fifthlight.musiccore.internal.song.QQSong;
-import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.MIDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;

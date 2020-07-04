@@ -17,7 +17,6 @@
 package fifthlight.musiccore.util;
 
 import static fifthlight.musiccore.util.UserAgentUtil.randomUserAgent;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,6 +24,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.zip.GZIPInputStream;
 
 /**
  * HTTP工具类
@@ -43,17 +43,22 @@ public class HTTPUtil {
         URLConnection conn = new URL(url).openConnection();
         conn.addRequestProperty("User-Agent", userAgent);
         conn.connect();
-        return readInputStream(conn.getInputStream(), charset);
+        if ("gzip".equals(conn.getContentEncoding())) {
+            return readInputStream(conn.getInputStream(), charset, true);
+        } else {
+            return readInputStream(conn.getInputStream(), charset, false);
+        }
     }
-    
-    public static String readInputStream(InputStream stream) throws IOException {
-        return readInputStream(stream, Charset.forName("UTF-8"));
-    }
-    
 
-    public static String readInputStream(InputStream stream, Charset charset) throws IOException {
+    public static String readInputStream(InputStream stream, boolean isGzipped) throws IOException {
+        return readInputStream(stream, Charset.forName("UTF-8"), isGzipped);
+    }
+
+    public static String readInputStream(InputStream stream, Charset charset, boolean isGzipped) throws IOException {
         StringBuilder builder = new StringBuilder();
-        InputStreamReader reader = new InputStreamReader(stream, charset);
+        InputStreamReader reader = isGzipped ?
+                new InputStreamReader(new GZIPInputStream(stream), charset):
+                new InputStreamReader(stream, charset);
         char[] cache = new char[1024];
         int len;
         while ((len = reader.read(cache)) != -1) {

@@ -21,14 +21,20 @@ import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.exception.InvaildQualityException;
+import fifthlight.musiccore.exception.ParseException;
 import fifthlight.musiccore.interfaces.MIDGetAble;
 import fifthlight.musiccore.internal.album.QQAlbum;
 import fifthlight.musiccore.internal.artist.QQArtist;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.song.lyric.LrcLyric;
 import fifthlight.musiccore.song.lyric.Lyric;
+import fifthlight.musiccore.song.lyric.TextLyric;
 import fifthlight.musiccore.song.songquality.SongQuality;
+import fifthlight.musiccore.util.Base64;
+import fifthlight.musiccore.util.qq.QQHTTPUtil;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,6 +51,7 @@ public class QQSong extends Song implements MIDGetAble {
     private Long ID;
     private String MID;
     private dataType dataType;
+    private JSONObject lyricObject;
 
     public enum dataType {
         FROM_PLAY,
@@ -146,12 +153,60 @@ public class QQSong extends Song implements MIDGetAble {
 
     @Override
     public Lyric getLyric() throws IOException {
-        return null;
+        if (lyricObject == null) {
+            getLyricObject();
+        }
+        if (lyricObject == null) {
+            return null;
+        }
+        if (lyricObject.containsKey("lyric")) {
+            String lrc = lyricObject.getString("lyric");
+            if (lrc != null && !lrc.isEmpty()) {
+                lrc = new String(Base64.decode(lrc, Base64.DEFAULT), Charset.forName("utf-8"));
+                if (LrcLyric.isLRC(lrc)) {
+                    return new LrcLyric(lrc);
+                } else {
+                    return new TextLyric(lrc);
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     @Override
     public Lyric getTranslatedLyric() throws IOException {
-        return null;
+        if (lyricObject == null) {
+            getLyricObject();
+        }
+        if (lyricObject == null) {
+            return null;
+        }
+        if (lyricObject.containsKey("trans")) {
+            String lrc = lyricObject.getString("trans");
+            if (lrc != null && !lrc.isEmpty()) {
+                lrc = new String(Base64.decode(lrc, Base64.DEFAULT), Charset.forName("utf-8"));
+                if (LrcLyric.isLRC(lrc)) {
+                    return new LrcLyric(lrc);
+                } else {
+                    return new TextLyric(lrc);
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    private void getLyricObject() throws IOException {
+        lyricObject = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg"
+                + "?songmid=" + MID + "&g_tk=5381&format=json");
+        if (lyricObject.getInteger("code") != 0) {
+            lyricObject = null;
+        }
     }
 
     @Override

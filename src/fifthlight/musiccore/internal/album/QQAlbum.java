@@ -116,7 +116,7 @@ public class QQAlbum extends Album implements MIDGetAble {
     public List<Picture> getPictures() throws IOException {
         List<Picture> result = new ArrayList<Picture>();
         if(!"".equals(shortObj.getString("pmid"))){
-            result.add(new QQAlbumPicture(shortObj.getString("pmid")));
+            result.add(new QQAlbumPicture(shortObj.getString("mid")));
         }
         return result;
     }

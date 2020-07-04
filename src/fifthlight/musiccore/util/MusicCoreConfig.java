@@ -14,31 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.internal.picture.qq;
-
-import fifthlight.musiccore.Picture;
-import java.io.IOException;
-import java.net.URL;
+package fifthlight.musiccore.util;
 
 /**
- *
+ * 存储一些静态信息
  * @author liuyujie
  */
-public class QQAlbumPicture extends Picture {
-    private final String mid;
-    
-    public QQAlbumPicture(String mid){
-        this.mid = mid;
-    }
-
-    @Override
-    public URL getURL(int xRes, int yRes) throws IOException {
-        int res = (int) (Math.ceil(((double) Math.min(Math.max(Math.max(xRes, yRes), 300), 800)) / 100) * 100);
-        return new URL("https://y.gtimg.cn/music/photo_new/T002R" + res + "x" + res + "M000" + mid + ".jpg?max_age=2592000");
-    }
-
-    @Override
-    public String getID() {
-        return mid;
-    }
+public class MusicCoreConfig {
+    public static final String VERSION = "0.0.1";
+    public static final int VERSION_NUM = 1;
 }
