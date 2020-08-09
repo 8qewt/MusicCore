@@ -52,7 +52,7 @@ public class QQArtistHotlistSearchResult extends SearchResult<Song> {
             ArrayList<Song> result = new ArrayList<Song>();
             for (Object dataObj : o.getJSONObject("data").getJSONArray("list")) {
                 if (dataObj != null) {
-                    result.add(new QQSong(dataObj, QQSong.dataType.FROM_PLAY));
+                    result.add(new QQSong(dataObj, QQSong.DataType.FROM_PLAY));
                 }
             }
             return result;

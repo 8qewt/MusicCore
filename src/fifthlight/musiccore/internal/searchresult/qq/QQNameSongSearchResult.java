@@ -62,7 +62,7 @@ public class QQNameSongSearchResult extends SearchResult<Song> {
             if (length() > 0) {
                 ArrayList<Song> songs = new ArrayList<Song>();
                 for (Object o : p.getJSONObject("song").getJSONArray("list")) {
-                    songs.add(new QQSong((JSONObject) o, QQSong.dataType.FROM_SEARCH));
+                    songs.add(new QQSong((JSONObject) o, QQSong.DataType.FROM_SEARCH));
                 }
                 return songs;
             } else {

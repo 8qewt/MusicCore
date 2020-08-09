@@ -39,7 +39,7 @@ public class QQIDSongSearchResult extends SearchResult<Song> {
                 JSONObject jsonData = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songmid="
                         + str + "&format=json");
                 if(jsonData != null){
-                    songs.add(new QQSong(jsonData, QQSong.dataType.FROM_PLAY));
+                    songs.add(new QQSong(jsonData, QQSong.DataType.FROM_PLAY));
                 }
             }
         } else {
@@ -49,7 +49,7 @@ public class QQIDSongSearchResult extends SearchResult<Song> {
                 }
                 JSONObject jsonData = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_play_single_song.fcg?songid="
                         + str + "&format=json");
-                songs.add(new QQSong(jsonData, QQSong.dataType.FROM_PLAY));
+                songs.add(new QQSong(jsonData, QQSong.DataType.FROM_PLAY));
             }
         }
     }

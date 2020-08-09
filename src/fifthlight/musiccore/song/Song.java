@@ -138,7 +138,7 @@ public abstract class Song extends IdentifierAble implements Serializable {
     
     @Override
     public String toString(){
-        return getClass().getName() + " {ID: " + this.getID() + "}";
+        return getClass().getName() + " {ID: " + this.getID() + ", Name: " + getName() + "}";
     }
     
     @Override

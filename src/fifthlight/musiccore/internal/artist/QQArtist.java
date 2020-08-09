@@ -18,7 +18,7 @@ package fifthlight.musiccore.internal.artist;
 
 import fifthlight.musiccore.internal.searchresult.EmptySearchResult;
 import com.alibaba.fastjson.JSONObject;
-import fifthlight.musiccore.HotlistAble;
+import fifthlight.musiccore.interfaces.HotlistAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.interfaces.MIDGetAble;

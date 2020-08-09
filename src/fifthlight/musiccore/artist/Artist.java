@@ -16,7 +16,7 @@
  */
 package fifthlight.musiccore.artist;
 
-import fifthlight.musiccore.DescriptionAble;
+import fifthlight.musiccore.interfaces.DescriptionAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.interfaces.IdentifierAble;
 import java.io.IOException;

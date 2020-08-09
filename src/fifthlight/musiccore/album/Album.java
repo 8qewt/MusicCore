@@ -16,7 +16,7 @@
  */
 package fifthlight.musiccore.album;
 
-import fifthlight.musiccore.DescriptionAble;
+import fifthlight.musiccore.interfaces.DescriptionAble;
 import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.interfaces.IdentifierAble;

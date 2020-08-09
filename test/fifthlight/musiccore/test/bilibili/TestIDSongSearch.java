@@ -49,6 +49,15 @@ public class TestIDSongSearch {
     }
 
     private void vaildSong(BilibiliSong s) throws IOException {
+        if (s.getID().equals("14130")) {
+            assertEquals("八辈子", s.getName());
+            assertEquals(1250752, s.getAVID());
+            assertEquals("BV1Sx411T7XB", s.getBVID());
+        } else if (s.getID().equals("1520577")) {
+            assertEquals("Hollow - Full Song Edit", s.getName());
+            assertEquals(540345579, s.getAVID());
+            assertEquals("BV14i4y1t7jY", s.getBVID());
+        }
         System.out.println("---Vaild Song---");
         System.out.println("id: " + s.getID());
         System.out.println("name: " + s.getName());
