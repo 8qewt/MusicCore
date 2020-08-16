@@ -23,6 +23,7 @@ import fifthlight.musiccore.song.Song;
 import fifthlight.musiccore.song.lyric.Lyric;
 import fifthlight.musiccore.song.lyric.TimeLine;
 import fifthlight.musiccore.song.lyric.TimeLineLyric;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
@@ -33,7 +34,7 @@ import org.junit.Test;
  */
 public class TestSongLyric {
     @Test
-    public void test() throws IOException {
+    public void test() throws Exception {
         IDSearch search = new IDSearch("1317110262");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(search);
         Song song = sr.getItems(0).get(0);
@@ -41,7 +42,7 @@ public class TestSongLyric {
     }
     
     @Test
-    public void testTranslate() throws IOException {
+    public void testTranslate() throws Exception {
         IDSearch search = new IDSearch("401249251");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(search);
         Song song = sr.getItems(0).get(0);
@@ -49,16 +50,9 @@ public class TestSongLyric {
         vaildLyric(song.getTranslatedLyric());
     }
     
-    private void vaildLyric(Lyric lrc){
+    private void vaildLyric(Lyric lrc) throws Exception{
         assertNotNull(lrc);
         System.out.println("---Vaild Lyric---");
-        if(lrc instanceof TimeLineLyric){
-            for(TimeLine tl : ((TimeLineLyric) lrc).getTimeLinesList()){
-                System.out.println("Time: " + tl.getTime() + " Lyric: " + tl.getText());
-            }
-        } else {
-            System.out.println("Lyric: " + lrc.getLyric());
-        }
-        System.out.println("-----------------");
+        DumpUtil.dump(lrc, true, DumpUtil.getStandardOut());
     }
 }

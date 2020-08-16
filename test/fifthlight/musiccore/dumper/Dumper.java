@@ -14,26 +14,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package fifthlight.musiccore.test.qq;
+package fifthlight.musiccore.dumper;
 
-import fifthlight.musiccore.factory.QQMusicFactory;
-import fifthlight.musiccore.search.IDSearch;
-import fifthlight.musiccore.search.searchresult.SearchResult;
-import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.Picture;
 import fifthlight.musiccore.util.DumpUtil;
-import java.io.IOException;
-import org.junit.Test;
+import fifthlight.musiccore.util.DumpWriter;
 
 /**
  *
  * @author liuyujie
  */
-public class TestAlbumSong {
-    @Test
-    public void test() throws Exception {
-        IDSearch search = new IDSearch("225981689");
-        SearchResult<Song> sr = QQMusicFactory.getInstance().getSongs(search);
-        Song song = sr.getItems(0).get(0);
-        DumpUtil.dump(song.getAlbum().getSongs().getItems(0), true, DumpUtil.getStandardOut());
-    }
+public abstract class Dumper {
+    public abstract boolean canDump(Object object);
+    
+    public abstract void dump(Object obj, DumpWriter out) throws Exception;
 }

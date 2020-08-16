@@ -22,6 +22,7 @@ import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -34,7 +35,7 @@ import org.junit.Test;
 public class TestNameAlbumSearch {
 
     @Test
-    public void testSearchNameOnce() throws IOException {
+    public void testSearchNameOnce() throws Exception {
         NameSearch s = new NameSearch("YURUYURI");
         SearchResult<Album> sr = NeteaseMusicFactory.getInstance().getAlbums(s);
         assertEquals(sr.length(), 7);
@@ -43,8 +44,7 @@ public class TestNameAlbumSearch {
         vaildAlbum(sr.getItems(0).get(3));
     }
 
-    private void vaildAlbum(Album a) throws IOException {
-        assertTrue("2512603".equals(a.getID()) || "39391231".equals(a.getID()));
+    private void vaildAlbum(Album a) throws Exception {
         if ("2512603".equals(a.getID())) {
             assertEquals(a.getName(), "YURUYURI♪1st.Series Best Album“ゆるゆりずむ♪”");
             assertEquals(a.getSongs().length(), 25);
@@ -53,20 +53,7 @@ public class TestNameAlbumSearch {
             assertEquals(a.getTitle(), "ゆるゆりのおんがく♪ YURUYURI ORIGINALSOUNDTRACK（摇曳百合 原声带）");
             assertEquals(a.getSongs().length(), 34);
         }
-        System.out.println("---Vaild Album---");
-        System.out.println("id: " + a.getID());
-        System.out.println("name: " + a.getName());
-        System.out.println("title: " + a.getTitle());
-        System.out.println("artists: ");
-        for (Artist ar : a.getArtists()) {
-            System.out.println("    name:" + ar.getName());
-            System.out.println("    id:" + ar.getID());
-        }
-        System.out.println("songs: ");
-        for (Song s : a.getSongs().getItems()) {
-            System.out.println("    name:" + s.getName());
-            System.out.println("    id:" + s.getID());
-        }
-        System.out.println("----------------");
+        System.out.println("---Dump Album---");
+        DumpUtil.dump(a, true, DumpUtil.getStandardOut());
     }
 }

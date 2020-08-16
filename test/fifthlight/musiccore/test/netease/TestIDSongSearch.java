@@ -22,6 +22,7 @@ import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ import org.junit.Test;
 public class TestIDSongSearch {
 
     @Test
-    public void testSearchIDOnce() throws IOException {
+    public void testSearchIDOnce() throws Exception {
         IDSearch s = new IDSearch("566442486");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
         assertEquals(sr.length(), 1);
@@ -47,7 +48,7 @@ public class TestIDSongSearch {
     }
 
     @Test
-    public void testSearchIDMulti() throws IOException {
+    public void testSearchIDMulti() throws Exception {
         IDSearch s = new IDSearch(new String[]{"566442486", "414118123", "106024"});
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
         assertEquals(sr.length(), 3);
@@ -57,7 +58,7 @@ public class TestIDSongSearch {
         }
     }
 
-    private void vaildSong(Song s) throws IOException {
+    private void vaildSong(Song s) throws Exception {
         assertTrue("566442486".equals(s.getID()) || "414118123".equals(s.getID()) || "106024".equals(s.getID()));
         if ("566442486".equals(s.getID())) {
             assertEquals(s.getName(), "Resonator");
@@ -69,23 +70,7 @@ public class TestIDSongSearch {
             assertEquals(s.getName(), "国家");
             assertEquals(s.getName(), s.getTitle());
         }
-        System.out.println("---Vaild Song---");
-        System.out.println("id: " + s.getID());
-        System.out.println("name: " + s.getName());
-        System.out.println("artists: ");
-        List<Artist> as = s.getArtists();
-        for (Artist a : as) {
-            System.out.println("    name:" + a.getName());
-            System.out.println("    title:" + a.getTitle());
-            System.out.println("    description:" + a.getDescription());
-        }
-        if (s.getAlbum() != null) {
-            if (s.getAlbum().getPictures() != null) {
-                for (Picture p : s.getAlbum().getPictures()) {
-                    System.out.println("Album Picture: " + p.getURL(0, 0));
-                }
-            }
-        }
-        System.out.println("----------------");
+        System.out.println("---Dump Song---");
+        DumpUtil.dump(s, true, DumpUtil.getStandardOut());
     }
 }

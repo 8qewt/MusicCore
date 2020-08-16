@@ -21,6 +21,7 @@ import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -32,7 +33,7 @@ import org.junit.Test;
  */
 public class TestNameSongSearch {
     @Test
-    public void testSearchNameOnce() throws IOException {
+    public void testSearchNameOnce() throws Exception {
         NameSearch s = new NameSearch("QUESTION");
         SearchResult<Song> sr = NeteaseMusicFactory.getInstance().getSongs(s);
         assertEquals(sr.length(), 1500);
@@ -48,7 +49,7 @@ public class TestNameSongSearch {
         }
     }
 
-    private void vaildSong(Song s) {
+    private void vaildSong(Song s) throws Exception {
         if ("404543013".equals(s.getID())) {
             assertEquals(s.getName(), "QUESTION");
             String title = s.getTitle();
@@ -62,10 +63,7 @@ public class TestNameSongSearch {
                 artists += "/";
             }
         }
-        System.out.println("---Vaild Song---");
-        System.out.println("id: " + s.getID());
-        System.out.println("artists: " + artists);
-        System.out.println("name: " + s.getName());
-        System.out.println("----------------");
+        System.out.println("---Dump Song---");
+        DumpUtil.dump(s, true, DumpUtil.getStandardOut());
     }
 }

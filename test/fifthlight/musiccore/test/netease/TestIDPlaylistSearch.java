@@ -21,6 +21,7 @@ import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -33,7 +34,7 @@ import org.junit.Test;
 public class TestIDPlaylistSearch {
 
     @Test
-    public void testSearchIDOnce() throws IOException {
+    public void testSearchIDOnce() throws Exception {
         IDSearch s = new IDSearch("1");
         SearchResult<Playlist> sr = NeteaseMusicFactory.getInstance().getPlaylists(s);
         assertEquals(sr.length(), 1);
@@ -42,7 +43,7 @@ public class TestIDPlaylistSearch {
     }
 
     @Test
-    public void testSearchIDMulti() throws IOException {
+    public void testSearchIDMulti() throws Exception {
         IDSearch s = new IDSearch(new String[]{"1", "164521381", "2490931595"});
         SearchResult<Playlist> sr = NeteaseMusicFactory.getInstance().getPlaylists(s);
         assertEquals(sr.length(), 3);
@@ -52,25 +53,17 @@ public class TestIDPlaylistSearch {
         }
     }
 
-    private void vaildPlaylist(Playlist pl) throws IOException {
+    private void vaildPlaylist(Playlist pl) throws Exception {
         assertTrue("1".equals(pl.getID()) || "164521381".equals(pl.getID()) || "2490931595".equals(pl.getID()));
         assertEquals(pl.getSubNames(), null);
         if ("1".equals(pl.getID())) {
             assertEquals(pl.getName(), "网易云音乐喜欢的音乐");
         } else if ("164521381".equals(pl.getID())) {
-            assertEquals(pl.getName(), "C418 - Minecraft【59首MC全曲】");
+            assertEquals(pl.getName(), "C418/Lena Raine | Minecraft");
         } else if ("2490931595".equals(pl.getID())) {
             assertEquals(pl.getName(), "《摇曳百合》音乐全收录");
         }
-        System.out.println("---Vaild Playlist---");
-        System.out.println("id: " + pl.getID());
-        System.out.println("name: " + pl.getName());
-        System.out.println("songsLength: " + pl.getSongs().length());
-        if (pl.getPictures() != null) {
-            for (Picture p : pl.getPictures()) {
-                System.out.println("Picture: " + p.getURL(0, 0));
-            }
-        }
-        System.out.println("----------------");
+        System.out.println("---Dump Playlist---");
+        DumpUtil.dump(pl, true, DumpUtil.getStandardOut());
     }
 }

@@ -23,6 +23,7 @@ import fifthlight.musiccore.internal.song.BilibiliSong;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -35,7 +36,7 @@ import org.junit.Test;
 public class TestIDSongSearch {
 
     @Test
-    public void testSearchIDOnce() throws IOException {
+    public void testSearchIDOnce() throws Exception {
         IDSearch s = new IDSearch("1520577");
         SearchResult<Song> sr = BilibiliFactory.getInstance().getSongs(s);
         assertEquals(sr.length(), 1);
@@ -48,7 +49,7 @@ public class TestIDSongSearch {
         vaildSong((BilibiliSong) sr.getItems(0).get(0));
     }
 
-    private void vaildSong(BilibiliSong s) throws IOException {
+    private void vaildSong(BilibiliSong s) throws Exception {
         if (s.getID().equals("14130")) {
             assertEquals("八辈子", s.getName());
             assertEquals(1250752, s.getAVID());
@@ -59,30 +60,6 @@ public class TestIDSongSearch {
             assertEquals("BV14i4y1t7jY", s.getBVID());
         }
         System.out.println("---Vaild Song---");
-        System.out.println("id: " + s.getID());
-        System.out.println("name: " + s.getName());
-        System.out.println("aid: " + s.getAVID());
-        System.out.println("bvid: " + s.getBVID());
-        System.out.println("description:" + s.getDescription());
-        System.out.println("artists: ");
-        List<Artist> as = s.getArtists();
-        for (Artist a : as) {
-            System.out.println("    name:" + a.getName());
-            System.out.println("    title:" + a.getTitle());
-            System.out.println("    description:" + a.getDescription());
-            if (a.getPictures() != null) {
-                for (Picture p : a.getPictures()) {
-                    System.out.println("    picture:" + p.getURL(0, 0));
-                }
-            }
-        }
-        if (s.getAlbum() != null) {
-            if (s.getAlbum().getPictures() != null) {
-                for (Picture p : s.getAlbum().getPictures()) {
-                    System.out.println("Album Picture: " + p.getURL(0, 0));
-                }
-            }
-        }
-        System.out.println("----------------");
+        DumpUtil.dump(s, false, DumpUtil.getStandardOut());
     }
 }

@@ -21,6 +21,7 @@ import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -34,7 +35,7 @@ import org.junit.Test;
 public class TestIDArtistSearch {
 
     @Test
-    public void testSearchIDOnce() throws IOException {
+    public void testSearchIDOnce() throws Exception {
         IDSearch s = new IDSearch("90056");
         SearchResult<Artist> sr = NeteaseMusicFactory.getInstance().getArtists(s);
         assertEquals(sr.length(), 1);
@@ -43,7 +44,7 @@ public class TestIDArtistSearch {
     }
 
     @Test
-    public void testSearchIDMulti() throws IOException {
+    public void testSearchIDMulti() throws Exception {
         IDSearch s = new IDSearch(new String[]{"90056", "18961", "1142042"});
         SearchResult<Artist> sr = NeteaseMusicFactory.getInstance().getArtists(s);
         assertEquals(sr.length(), 3);
@@ -53,7 +54,7 @@ public class TestIDArtistSearch {
         }
     }
 
-    private void vaildArtist(Artist a) throws IOException {
+    private void vaildArtist(Artist a) throws Exception {
         assertTrue("90056".equals(a.getID()) || "18961".equals(a.getID()) || "1142042".equals(a.getID()));
         if ("90056".equals(a.getID())) {
             assertEquals(a.getName(), "C418");
@@ -65,16 +66,7 @@ public class TestIDArtistSearch {
             assertEquals(a.getName(), "徐梦圆");
             assertEquals(a.getName(), a.getTitle());
         }
-        System.out.println("---Vaild Artist---");
-        System.out.println("id: " + a.getID());
-        System.out.println("name: " + a.getName());
-        System.out.println("title: " + a.getTitle());
-        System.out.println("description: " + a.getDescription());
-        if (a.getPictures() != null) {
-            for (Picture p : a.getPictures()) {
-                System.out.println("picture: " + p.getURL(0, 0));
-            }
-        }
-        System.out.println("----------------");
+        System.out.println("---Dump Artist---");
+        DumpUtil.dump(a, true, DumpUtil.getStandardOut());
     }
 }

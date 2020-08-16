@@ -23,6 +23,7 @@ import fifthlight.musiccore.playlist.Playlist;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -35,27 +36,19 @@ import org.junit.Test;
  */
 public class TestNamePlaylistSearch {
     @Test
-    public void testSearchNameOnce() throws IOException {
-        NameSearch s = new NameSearch("59首MC全曲");
+    public void testSearchNameOnce() throws Exception {
+        NameSearch s = new NameSearch("网易云音乐喜欢的音乐");
         SearchResult<Playlist> sr = NeteaseMusicFactory.getInstance().getPlaylists(s);
-        vaildSong(sr.getItems(0).get(0));
+        vaildPlaylist(sr.getItems(0).get(0));
     }
 
-    private void vaildSong(Playlist pl) throws IOException {
-        assertTrue("164521381".equals(pl.getID()));
+    private void vaildPlaylist(Playlist pl) throws Exception {
+        assertTrue("4866675870".equals(pl.getID()));
         assertEquals(pl.getSubNames(), null);
-        if ("164521381".equals(pl.getID())) {
-            assertEquals(pl.getName(), "C418 - Minecraft【59首MC全曲】");
+        if ("4866675870".equals(pl.getID())) {
+            assertEquals(pl.getName(), "网易云音乐喜欢的音乐");
         }
-        System.out.println("---Vaild Playlist---");
-        System.out.println("id: " + pl.getID());
-        System.out.println("name: " + pl.getName());
-        System.out.println("songsLength: " + pl.getSongs().length());
-        if (pl.getPictures() != null) {
-            for (Picture p : pl.getPictures()) {
-                System.out.println("Picture: " + p.getURL(0, 0));
-            }
-        }
-        System.out.println("----------------");
+        System.out.println("---Dump Playlist---");
+        DumpUtil.dump(pl, true, DumpUtil.getStandardOut());
     }
 }

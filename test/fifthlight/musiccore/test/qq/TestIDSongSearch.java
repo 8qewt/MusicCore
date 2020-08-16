@@ -16,15 +16,13 @@
  */
 package fifthlight.musiccore.test.qq;
 
-import fifthlight.musiccore.Picture;
-import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.factory.QQMusicFactory;
 import fifthlight.musiccore.internal.song.QQSong;
+import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.MIDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
 import fifthlight.musiccore.song.Song;
-import java.io.IOException;
-import java.util.List;
+import fifthlight.musiccore.util.DumpUtil;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -36,20 +34,20 @@ import org.junit.Test;
 public class TestIDSongSearch {
 
     @Test
-    public void testSearchIDOnce() throws IOException {
+    public void testSearchIDOnce() throws Exception {
         MIDSearch s = new MIDSearch("000915uD19lawX");
         SearchResult<Song> sr = QQMusicFactory.getInstance().getSongs(s);
         assertEquals(sr.length(), 1);
         assertEquals(sr.pageLength(), 1);
         vaildSong((QQSong) sr.getItems(0).get(0));
-        s = new MIDSearch("0045yG4H4P0rMz");
-        sr = QQMusicFactory.getInstance().getSongs(s);
+        IDSearch ids = new IDSearch("233032206");
+        sr = QQMusicFactory.getInstance().getSongs(ids);
         assertEquals(sr.length(), 1);
         assertEquals(sr.pageLength(), 1);
         vaildSong((QQSong) sr.getItems(0).get(0));
     }
 
-    private void vaildSong(QQSong s) throws IOException {
+    private void vaildSong(QQSong s) throws Exception {
         assertTrue("000915uD19lawX".equals(s.getMID()) || "0045yG4H4P0rMz".equals(s.getMID()));
         if ("000915uD19lawX".equals(s.getMID())) {
             assertEquals(s.getName(), "ちょちょちょ!ゆるゆり☆かぷりっちょ!!! (七森中☆生徒会ver.)");
@@ -59,27 +57,6 @@ public class TestIDSongSearch {
             assertEquals(s.getTitle(), "daze (《目隐都市的演绎者》TV动画片头曲)");
         }
         System.out.println("---Vaild Song---");
-        System.out.println("id: " + s.getID());
-        System.out.println("name: " + s.getName());
-        System.out.println("artists: ");
-        List<Artist> as = s.getArtists();
-        for (Artist a : as) {
-            System.out.println("    name:" + a.getName());
-            System.out.println("    title:" + a.getTitle());
-            System.out.println("    description:" + a.getDescription());
-            if (a.getPictures() != null) {
-                for (Picture p : a.getPictures()) {
-                    System.out.println("    picture:" + p.getURL(0, 0));
-                }
-            }
-        }
-        if (s.getAlbum() != null) {
-            if (s.getAlbum().getPictures() != null) {
-                for (Picture p : s.getAlbum().getPictures()) {
-                    System.out.println("Album Picture: " + p.getURL(0, 0));
-                }
-            }
-        }
-        System.out.println("----------------");
+        DumpUtil.dump(s, true, DumpUtil.getStandardOut());
     }
 }

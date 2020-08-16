@@ -21,6 +21,7 @@ import fifthlight.musiccore.artist.Artist;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.NameSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -33,7 +34,7 @@ import org.junit.Test;
 public class TestNameArtistSearch {
 
     @Test
-    public void testSearchNameOnce() throws IOException {
+    public void testSearchNameOnce() throws Exception {
         NameSearch s = new NameSearch("ClariS");
         SearchResult<Artist> sr = NeteaseMusicFactory.getInstance().getArtists(s);
         assertTrue(sr.length() > 54);
@@ -41,22 +42,13 @@ public class TestNameArtistSearch {
         vaildArtist(sr.getItems(0).get(0));
     }
 
-    private void vaildArtist(Artist a) throws IOException {
+    private void vaildArtist(Artist a) throws Exception {
         assertTrue("18961".equals(a.getID()));
         if ("18961".equals(a.getID())) {
             assertEquals(a.getName(), "ClariS");
             assertEquals(a.getTitle(), "ClariS（クラリス）");
         }
-        System.out.println("---Vaild Artist---");
-        System.out.println("id: " + a.getID());
-        System.out.println("name: " + a.getName());
-        System.out.println("title: " + a.getTitle());
-        System.out.println("description: " + a.getDescription());
-        if (a.getPictures() != null) {
-            for (Picture p : a.getPictures()) {
-                System.out.println("picture: " + p.getURL(0, 0));
-            }
-        }
-        System.out.println("----------------");
+        System.out.println("---Dump Artist---");
+        DumpUtil.dump(a, true, DumpUtil.getStandardOut());
     }
 }

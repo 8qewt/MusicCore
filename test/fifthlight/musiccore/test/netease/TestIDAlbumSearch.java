@@ -20,6 +20,7 @@ import fifthlight.musiccore.album.Album;
 import fifthlight.musiccore.factory.NeteaseMusicFactory;
 import fifthlight.musiccore.search.IDSearch;
 import fifthlight.musiccore.search.searchresult.SearchResult;
+import fifthlight.musiccore.util.DumpUtil;
 import java.io.IOException;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -33,7 +34,7 @@ import org.junit.Test;
 public class TestIDAlbumSearch {
     
     @Test
-    public void testSearchIDOnce() throws IOException {
+    public void testSearchIDOnce() throws Exception {
         IDSearch s = new IDSearch("3271289");
         SearchResult<Album> ar = NeteaseMusicFactory.getInstance().getAlbums(s);
         assertEquals(ar.length(), 1);
@@ -42,7 +43,7 @@ public class TestIDAlbumSearch {
     }
 
     @Test
-    public void testSearchIDMulti() throws IOException {
+    public void testSearchIDMulti() throws Exception {
         IDSearch s = new IDSearch(new String[]{"3271289", "2875038"});
         SearchResult<Album> ar = NeteaseMusicFactory.getInstance().getAlbums(s);
         assertEquals(ar.length(), 2);
@@ -52,16 +53,14 @@ public class TestIDAlbumSearch {
         }
     }
 
-    private void vaildAlbum(Album a) throws IOException {
+    private void vaildAlbum(Album a) throws Exception {
         assertTrue("ゆりしゅらしゅしゅしゅ / おひるねゆにばーす".equals(a.getName()) || "YURUYURI♪♪ 2nd.Series BESTALBUM ゆるゆりずむ♪2".equals(a.getName()));
         if("3271289".equals(a.getID())){
             assertEquals(a.getTitle(), "ゆりしゅらしゅしゅしゅ / おひるねゆにばーす（TV动画《摇曳百合 夏日时光》主题曲专辑）");
         } else if("2875038".equals(a.getID())){
             assertEquals(a.getTitle(), a.getName());
         } 
-        System.out.println("---Vaild Album---");
-        System.out.println("name: " + a.getName());
-        System.out.println("title: " + a.getTitle());
-        System.out.println("----------------");
+        System.out.println("---Dump Album---");
+        DumpUtil.dump(a, true, DumpUtil.getStandardOut());
     }
 }
