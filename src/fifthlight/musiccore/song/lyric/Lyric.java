@@ -29,4 +29,9 @@ public abstract class Lyric implements Serializable {
      * @return 歌词文本
      */
     public abstract String getLyric();
+    
+    @Override
+    public String toString() {
+        return getLyric();
+    }
 }

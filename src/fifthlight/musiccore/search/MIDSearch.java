@@ -61,4 +61,19 @@ public class MIDSearch extends Search {
     public List<String> getMIDs(){
         return mids;
     }
+    
+    @Override
+    public String toString(){
+        StringBuilder midBuilder = new StringBuilder();
+        boolean start = true;
+        for(String mid: mids) {
+            if(start) {
+                start = false;
+            } else {
+                midBuilder.append(", ");
+            }
+            midBuilder.append(mid);
+        }
+        return getClass().getName() + " {MIDs: " + midBuilder.toString() + "}";
+    }
 }

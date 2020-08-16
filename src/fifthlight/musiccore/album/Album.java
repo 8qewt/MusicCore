@@ -67,4 +67,10 @@ public abstract class Album extends IdentifierAble implements Serializable, Desc
      * @throws IOException 网络错误时抛出此异常。
      */
     public abstract SearchResult<Song> getSongs() throws IOException;
+    
+    @Override
+    public String toString(){
+        return getClass().getName() + " {ID: " + this.getID() + ", Name: " +
+                getName() + "}";
+    }
 }

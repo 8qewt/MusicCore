@@ -61,4 +61,19 @@ public final class IDSearch extends Search {
     public List<String> getIDs(){
         return ids;
     }
+    
+    @Override
+    public String toString(){
+        StringBuilder midBuilder = new StringBuilder();
+        boolean start = true;
+        for(String mid: ids) {
+            if(start) {
+                start = false;
+            } else {
+                midBuilder.append(", ");
+            }
+            midBuilder.append(mid);
+        }
+        return getClass().getName() + " {IDs: " + midBuilder.toString() + "}";
+    }
 }

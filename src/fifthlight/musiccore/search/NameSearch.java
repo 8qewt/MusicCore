@@ -38,4 +38,9 @@ public final class NameSearch extends Search {
     public String getName(){
         return name;
     }
+    
+    @Override
+    public String toString(){
+        return getClass().getName() + " {Name: " + getName() + "}";
+    }
 }

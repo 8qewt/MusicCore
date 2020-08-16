@@ -49,4 +49,10 @@ public abstract class Artist extends IdentifierAble implements Serializable, Des
      * @return 专辑的图片，没有则返回空集合
      */
     public abstract List<Picture> getPictures() throws IOException;
+    
+    @Override
+    public String toString(){
+        return getClass().getName() + " {ID: " + this.getID() + ", Name: " +
+                getName() + "}";
+    }
 }

@@ -60,4 +60,10 @@ public abstract class Playlist extends IdentifierAble implements Serializable {
      * @return 播放列表中的歌曲
      */
     public abstract SearchResult<Song> getSongs() throws IOException;
+    
+    @Override
+    public String toString(){
+        return getClass().getName() + " {ID: " + this.getID() + ", Name: " +
+                getName() + "}";
+    }
 }
