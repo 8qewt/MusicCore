@@ -48,7 +48,7 @@ public class NeteaseAlbum extends Album {
                 break;
             case 1:
                 fullObj = o;
-                id = o.getLong("id");
+                id = o.getJSONObject("album").getLong("id");
                 break;
             default:
                 throw new RuntimeException();
@@ -87,7 +87,7 @@ public class NeteaseAlbum extends Album {
         if (shortObj != null) {
             list.add(new NeteasePicture(shortObj.getLong("pic")));
         } else {
-            list.add(new NeteasePicture(fullObj.getLong("picId")));
+            list.add(new NeteasePicture(fullObj.getJSONObject("album").getLong("picId")));
         }
         return list;
     }
