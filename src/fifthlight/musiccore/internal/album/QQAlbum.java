@@ -49,10 +49,13 @@ public class QQAlbum extends Album implements MIDGetAble {
         ID,
         ALBUM_SONG
     }
-
-    @SuppressWarnings("DeadBranch")
+    
     private void getInfo() throws IOException {
-        if (true) {
+        getInfo(true);
+    }
+
+    private void getInfo(boolean byMID) throws IOException {
+        if (!byMID) {
             // get by ID
             infoObj = QQHTTPUtil.JSONHTTPRequest("https://c.y.qq.com/v8/fcg-bin/fcg_v8_album_info_cp.fcg?albumid="
                     + ID + "&format=json&inCharset=utf8&outCharset=utf-8&platform=yqq");
@@ -64,7 +67,7 @@ public class QQAlbum extends Album implements MIDGetAble {
         infoObj = infoObj.getJSONObject("data");
     }
 
-    public QQAlbum(Object o, DataType type) {
+    public QQAlbum(Object o, DataType type) throws IOException {
         switch (type) {
             case SHORT:
                 shortObj = (JSONObject) o;
@@ -72,7 +75,9 @@ public class QQAlbum extends Album implements MIDGetAble {
                 ID = shortObj.getLongValue("id");
                 break;
             case ID:
-                infoObj = (JSONObject) o;
+                ID = (long) o;
+                getInfo(false);
+                MID = infoObj.getString("mid");
                 break;
             case ALBUM_SONG:
                 songObj = (JSONObject) o;
